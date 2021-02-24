@@ -1,0 +1,41 @@
+<!-- Make a function called compose that takes two functions f1 and f2 and returns a new function that,
+when called on a value, will return f1(f2(value)). Assume that f1 and f2 each take exactly one argument.
+var f1 = compose(square, double);
+f1(5); => 100
+f1(10); => 400
+var f2 = compose(double, square);
+f2(5); => 50
+f2(10); => 200 -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Q2</h2>
+
+<p>Make a function called compose that takes two functions f1 and f2 and returns a new function that,
+    when called on a value, will return f1(f2(value)). Assume that f1 and f2 each take exactly one argument.</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+<p id="demo4"></p>
+
+<script>
+function square(x) { return(x*x); }
+function double(x) { return(x*2); }
+function compose(function1,function2,a) {
+    return(function1(function2(a)));
+    
+}
+function f1(x){
+    return(compose(square, double,x));}
+function f2(x){
+    return(compose(double, square,x));
+}
+document.getElementById("demo1").innerHTML = f1(5); 
+document.getElementById("demo2").innerHTML = f1(10); 
+document.getElementById("demo3").innerHTML = f2(5); 
+document.getElementById("demo4").innerHTML = f2(10); 
+</script>
+</body>
+</html>

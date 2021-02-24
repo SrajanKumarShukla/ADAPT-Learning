@@ -1,0 +1,91 @@
+*{
+    margin:0;
+    padding:0;
+  }
+body{margin:0;padding:0;text-align: center;}
+header{
+    background: #333
+      url("https://static.pexels.com/photos/248515/pexels-photo-248515.png");
+    width: 100%;
+    height: 450px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+header h1{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1cm;
+    padding-top: 100px;
+    padding-bottom: 0;
+}
+header p{
+    text-align: center;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: x-large;
+}
+header a{
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    padding: 1em 2em;
+    border: 1px solid #666;
+    margin: 0.5em 0;
+    
+}
+header a:hover{
+    background: #eaeaea;
+    color: #333;
+}
+#section1{
+    padding-top: 20px;
+    font-size: larger;
+    background-color: aliceblue;
+}
+.container{
+    padding-top: 20px;
+}
+#section-b {
+    padding: 2em 1em 1em;
+    margin: auto;
+    width: 80%;
+    background-color: #333;
+  }
+#b{
+    background-color: #333; 
+  }
+#c{
+    background-color: white;
+    margin: auto;
+}
+#c h2, #c p{
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+#contact{
+    background-color: rgb(78, 152, 248);
+    color: white;
+}
+#contact h2,#about h2{
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+#contact p,#about p{
+    padding-top: 20px;
+}
+#about{
+    background-color: #333;
+    color: white;
+}
+#footer{
+    background-color: black;
+    color: white;
+    font-size: 0.5cm;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

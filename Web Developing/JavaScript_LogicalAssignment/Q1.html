@@ -1,0 +1,28 @@
+<!-- Make a function that returns “even” or “odd” depending on the number passed to it. -->
+<!-- parity(1); =>"odd" -->
+<!-- parity(2); => "even" -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>This example calls a function which performs a calculation, and returns the result:</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script>
+function parity(a) {
+    if (a%2==0) {
+        return ("even");
+    } else {
+        return ("odd");
+    }
+}
+document.getElementById("demo1").innerHTML = parity(1);
+document.getElementById("demo2").innerHTML = parity(2);
+</script>
+
+</body>
+</html>
