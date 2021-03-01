@@ -1,0 +1,30 @@
+<!-- Make a Rectangle class that stores a width and a height. Make a few instances and print out the
+properties. Modify a few of the properties and print out the results again. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Q1</h2>
+
+<p>Make a Rectangle class that stores a width and a height. Make a few instances and print out the
+  properties. Modify a few of the properties and print out the results again.</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+<script>
+class Rectangle {
+  constructor(width,height) {
+    this.width = width;
+    this.height = height;
+  }
+}
+
+r1 = new Rectangle(4,5);
+r2 = new Rectangle(8,9);
+document.getElementById("demo1").innerHTML =r1.width + " " + r1.height;
+document.getElementById("demo2").innerHTML =r2.width + " " + r2.height;
+
+</script>
+
+</body>
+</html>

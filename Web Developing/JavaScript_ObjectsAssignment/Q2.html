@@ -1,0 +1,31 @@
+<!-- In Q1 Add a getArea method. Use the prototype property. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Q2</h2>
+
+<p>In Q1 Add a getArea method. Use the prototype property.</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+<script>
+class Rectangle {
+  constructor(width,height) {
+    this.width = width;
+    this.height = height;
+  }
+}
+Rectangle.prototype.Area= function(){
+    return(this.width*this.height);
+};
+
+r1 = new Rectangle(4,5);
+r2 = new Rectangle(8,9);
+document.getElementById("demo1").innerHTML = r1.Area();
+document.getElementById("demo2").innerHTML = r2.Area();
+
+</script>
+
+</body>
+</html>
