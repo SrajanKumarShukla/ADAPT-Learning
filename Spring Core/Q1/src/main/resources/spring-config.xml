@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        <!-- Uncomment the following line for setter injection and do same in Address.java and Customer.java 
+		<bean id="Customer" class="com.assignment.Q1.Customer">
+                <property name="customerName" value="Ravi" />
+                <property name="customerId" value="28" />
+				<property name="customerContact" value= "2812142522" />
+                <property name="customerAddress" ref="address" />
+        </bean>
+        <bean id="address" class="com.assignment.Q1.Address">
+                <property name="street" value="2nd Street" />
+				<property name="city" value="Kanpur" />
+				<property name="state" value="Uttar Pradesh" />
+				<property name="zip" value="208009" />
+                <property name="country" value="India" />
+        </bean> -->
+	<bean id="Customer" class="com.assignment.Q1.Customer">
+ 		<constructor-arg index="0" value="Ravit"></constructor-arg>
+ 		<constructor-arg index="1" value="28"></constructor-arg>
+ 		<constructor-arg index="2" value="2812142522"></constructor-arg>
+ 		<constructor-arg index="3" ref="address"></constructor-arg>
+ 	</bean>
+	<bean id="address" class="com.assignment.Q1.Address">
+ 		<constructor-arg index="0" value="2nd Street"></constructor-arg>
+ 		<constructor-arg index="1" value="Kanpur"></constructor-arg>
+ 		<constructor-arg index="2" value="Uttar Pradesh"></constructor-arg>
+ 		<constructor-arg index="3" value="208009"></constructor-arg>
+ 		<constructor-arg index="4" value="India"></constructor-arg>
+ 	</bean> 
+
+	
+</beans>
