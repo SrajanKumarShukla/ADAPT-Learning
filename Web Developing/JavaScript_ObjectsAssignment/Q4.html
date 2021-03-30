@@ -1,0 +1,25 @@
+<!-- Make a variable whose value is an object with firstName and lastName properties, but don’t define
+a Person class first. Try looking up the first and last names. Try changing the last name. It seems
+very odd to Java programmers to make an object without first defining a class, but JavaScript programmers
+do this sort of thing all the time. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Q4</h2>
+
+<p>In Q4 Make a variable whose value is an object with firstName and lastName properties, but don’t define
+    a Person class first.</p>
+
+<script>
+function person(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+}
+
+const srajan = new person('srajan', 'kumar');
+console.log(srajan);
+
+</script>
+
+</body>

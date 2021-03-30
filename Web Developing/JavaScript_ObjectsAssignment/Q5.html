@@ -1,0 +1,27 @@
+<!-- Try reading the middleName property from your variable above. Try assigning to the middleName
+property. Try reading the property again after you assign to it. Is this behavior a good thing or a bad
+thing? -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Q5</h2>
+
+<p>In Q5 Try reading the middleName property from your variable above. Try assigning to the middleName
+    property.</p>
+
+    <script>
+        function person(firstName, lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        
+        const srajan = new person('srajan', 'kumar');
+        console.log(srajan);
+        console.log(srajan.middleName);
+        // This gives undefined as the person class doesn't have middleName attribute in it.
+// This is very useful because, it's kind of handling the error by itself and alerting the devloper to change/update the value
+
+</script>
+
+</body>

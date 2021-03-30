@@ -1,0 +1,29 @@
+<!-- Create a string that contains what looks like an object with firstName and lastName properties. Use
+“eval” to turn it into a real object, and test it the same way you did with the previous object that you
+created directly. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Q6</h2>
+
+<p>In Q6 Create a string that contains what looks like an object with firstName and lastName properties.</p>
+
+<script>
+var p={
+    firstname:"Srajan",
+    lastname="Kumar"
+    };
+    
+    p.getfullname=function()
+    {
+    console.log(this.firstname+" "+this.lastname);
+    }
+    //updating 
+    p.lastname="Shukla";
+    console.log(p.lastname);
+    console.log(p.getfullname());
+</script>
+
+</body>
+</html>
