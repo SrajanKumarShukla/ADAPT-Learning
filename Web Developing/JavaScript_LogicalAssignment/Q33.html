@@ -1,0 +1,48 @@
+<!-- Given two strings, write a program that efficiently finds the longest common
+subsequence. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Given two strings, write a program that efficiently finds the longest common
+    subsequence.</p>
+<script>
+function lcs(X,Y,n,m){
+    var t = new Array(n+1);
+    for(let i=0;i<t.length;i++){
+        t[i]= new Array(m+1);
+    }
+
+    for(let i=0;i<n+1;i++){
+        for(let j=0;j<m+1;j++){
+            if(i==0 || j==0){
+                t[i][j]=0;
+            }
+        }
+    }
+    for(let i=1;i<n+1;i++){
+        for(let j=1;j<m+1;j++){
+            if(X[i-1]==Y[j-1]){
+                t[i][j]=1+ t[i-1][j-1];
+            }
+            else{
+                t[i][j]=Math.max(t[i][j-1],t[i-1][j]);
+            }
+        }
+    }
+    return t[n][m];
+
+}
+
+
+
+X="abcdgh"            
+Y="abedehr"
+
+console.log("The length of the Longest Common Subsequence is: ", lcs(X,Y,X.length,Y.length));
+</script>
+
+</body>
+</html>

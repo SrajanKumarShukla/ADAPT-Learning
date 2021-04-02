@@ -1,0 +1,32 @@
+<!-- The notes showed a simple version of max that took exactly two arguments. Update this to take
+exactly three arguments. Note that the builtin version of Math.max takes any number of arguments,
+which is much better, but we don’t know how to do variable arguments yet. And, of course, no
+using Math.max on this exercise.
+max(1, 2, 3); => 3
+max(1, 3, 2); => 3
+max(3, 2, 1); => 3 -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>The notes showed a simple version of max that took exactly two arguments. Update this to take
+    exactly three arguments</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+
+<script>
+function max(num1,num2,num3){
+   let m = num1>num2?(num1>num3?num1:num3):(num2>num3?num2:num3);
+   return m;
+}
+document.getElementById("demo1").innerHTML = max(1, 2, 3);
+document.getElementById("demo2").innerHTML = max(1, 3, 2);
+document.getElementById("demo3").innerHTML = max(3, 2, 1);
+</script>
+
+</body>
+</html>

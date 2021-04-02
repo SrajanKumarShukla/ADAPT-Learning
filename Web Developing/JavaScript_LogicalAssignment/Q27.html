@@ -1,0 +1,62 @@
+<!-- Write a script which uses a prompt box to get an input. Validate that the input is an Integer
+between 1 and 30, and then print to the page asterisks (*) to represent the number. Your script
+must run until you have collected 3 valid inputs as well as generate 3 outputs (one output on one
+line).
+Example:
+Input: 4
+Input: 6
+Input: 12
+****
+******
+************ -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Write a script which uses a prompt box to get an input. Validate that the input is an Integer
+    between 1 and 30, and then print to the page asterisks (*) to represent the number. Your script
+    must run until you have collected 3 valid inputs as well as generate 3 outputs (one output on one
+    line).</br>
+    Example:</br>
+    Input: 4</br>
+    Input: 6</br>
+    Input: 12</br>
+    ****</br>
+    ******</br>
+    ************</p>
+
+
+
+<script>
+function isNumeric(value) {
+    return /^-?\d+$/.test(value);
+ }
+function myFunction() {
+    
+    for(let i=0;i<3;i++){
+          var txt="";
+       
+        var num = prompt("Please enter a number:", "");
+        if (num == null || num == "") {
+        txt = "User cancelled the prompt.";
+         } 
+        else if(isNumeric(num)){
+            if(num>=1 && num<=30){
+                for(let i=0;i<num;i++){
+                   txt+="*";
+                 }
+             }
+        }
+        else {
+           txt="invalid number";
+      }
+      document.getElementById("demo").innerHTML += txt+"</br>";
+   }
+
+} 
+</script>
+
+</body>
+</html>

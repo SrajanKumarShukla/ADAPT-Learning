@@ -1,0 +1,35 @@
+<!-- Write a program that finds the longest palindromic substring of a given string. Try to be
+as efficient as possible! -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Write a program that finds the longest palindromic substring of a given string. Try to be
+    as efficient as possible!</p>
+<script>
+function longestPallindromicSubsequence(X,Y,n,m){
+    if(n==0 || m==0)
+     return 0;
+
+    if(X[n-1]==Y[m-1]){
+        return  1+ longestPallindromicSubsequence(X,Y,n-1,m-1);
+    }
+    else{
+        return Math.max(longestPallindromicSubsequence(X,Y,n,m-1),longestPallindromicSubsequence(X,Y,n-1,m))
+    }
+}
+
+function reverseString(str) {
+    return str.split("").reverse().join("");
+}
+
+X="agbcba"            // ans -> abcba -> lenght 5
+Y = reverseString(X);
+
+console.log("The length of the Longest Pallindromic Subsequence is: ", longestPallindromicSubsequence(X,Y,X.length,Y.length));
+</script>
+
+</body>
+</html>

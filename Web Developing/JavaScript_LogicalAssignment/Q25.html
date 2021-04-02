@@ -1,0 +1,45 @@
+<!-- Write functions that add, subtract, and multiply two numbers in their digitimplement
+Karatsuba multiplication. Try different bases. What is the best
+number exercise above due to the lack of large numbers in your language,
+you can now use your own library for this task. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Write functions that add, subtract, and multiply two numbers in their digitimplement
+    Karatsuba multiplication. Try different bases. What is the best
+    number exercise above due to the lack of large numbers in your language,
+    you can now use your own library for this task.</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script>
+function arithmaticOperation(num1,num2){
+   let digitListNum1 = digitlist(num1);
+   let digitListNum2 = digitlist(num2);
+   
+   let newAddList=[];
+   let newMulList=[];
+   let newSubList=[];
+
+   
+   for(let i=0;i<digitListNum1.length;i++){
+       newAddList.push(digitListNum1[i]+digitListNum2[i]);
+       newSubList.push(digitListNum1[i]-digitListNum2[i]);
+       newMulList.push(digitListNum1[i]*digitListNum2[i]);
+   }
+console.log("Addition : ",newAddList);
+console.log("multiplication: ",newMulList);
+console.log("subtraction: ",newSubList);
+}
+
+document.getElementById("demo1").innerHTML = ("Numbers are: ",13,21);
+document.getElementById("demo2").innerHTML = arithmaticOperation(13,21); 
+get_random(list);
+</script>
+
+</body>
+</html>

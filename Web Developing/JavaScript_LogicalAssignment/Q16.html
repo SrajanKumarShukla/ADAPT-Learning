@@ -1,0 +1,60 @@
+<!-- Write a guessing game where the user has to guess a secret number. After
+every guess the program tells the user whether their number was too large
+or too small. At the end the number of tries needed should be printed. It
+counts only as one try if they input the same number multiple times
+consecutively. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Write a guessing game where the user has to guess a secret number. After
+    every guess the program tells the user whether their number was too large
+    or too small. At the end the number of tries needed should be printed. It
+    counts only as one try if they input the same number multiple times
+    consecutively.</p>
+
+
+
+<script>
+function guess(num){
+
+}
+
+
+const userName1 = document.forms['form1'];
+
+var attempt=0
+userName.addEventListener('submit',function(e){
+   e.preventDefault();
+   let value = userName1.querySelector('input[type="text"]').value;
+   let num =value.toString().length;
+   
+   const p = document.createElement('h2');
+   if(num>=3){
+       attempt++;
+       p.textContent = "number is too long";
+       n.appendChild(p);
+   }
+   else if(num<1){
+       attempt++;
+       p.textContent = "number is too small";
+       n.appendChild(p);
+   }
+   else if(value==15){
+       attempt++;
+       p.textContent = "Hurry you guess right and total attempt "+attempt;
+       n.appendChild(p);
+   }
+   else{
+       attempt++;
+       p.textContent = "Wrong guess";
+        n.appendChild(p);
+   }
+
+});
+</script>
+
+</body>
+</html>

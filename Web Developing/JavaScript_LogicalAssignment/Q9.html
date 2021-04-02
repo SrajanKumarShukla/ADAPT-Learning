@@ -1,0 +1,25 @@
+<!-- Create an array containing 100 random numbers. Use two-step array allocation. Print out the array.
+var hundredNums = ...;
+for(...) { ... }
+hundredNums; -> [0.8742489161574934, 0.7147785711684753, 0.8062322101495641,...0.41288219216760613, 0.5113443687277072] -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Create an array containing 100 random numbers. Use two-step array allocation. Print out the array.</p>
+
+<p id="demo1"></p>
+
+<script>
+var hundredNums=[]
+for(let i=0;i<100;i++){
+   hundredNums.push(Math.random());
+}
+
+document.getElementById("demo1").innerHTML = hundredNums;
+</script>
+
+</body>
+</html>

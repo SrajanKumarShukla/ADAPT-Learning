@@ -1,0 +1,31 @@
+<!-- Write a function that returns the number of times you have to roll a die to get a 6.
+(Minor hint: compare Math.random() to 5/6).
+numRollsToGetSix(); -> 13
+numRollsToGetSix(); -> 2 -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>This example calls a function which performs a calculation, and returns the result:</p>
+
+<p id="demo1"></p>
+
+
+<script>
+function numRollsToGetSix(){
+   let ans=0;
+   let i=0;
+   while(ans!=6){
+       ans =Math.floor(Math.random()*6)+1;
+       i++;
+   }
+   return i;
+}
+document.getElementById("demo1").innerHTML = numRollsToGetSix();
+
+</script>
+
+</body>
+</html>

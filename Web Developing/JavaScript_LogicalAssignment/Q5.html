@@ -1,0 +1,30 @@
+<!-- Make a function that takes a number and a short string, and returns the string concatenated that
+number of times.
+padChars(5, "x"); => "xxxxx"
+padChars(7, "-"); => "-------" -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Make a function that takes a number and a short string, and returns the string concatenated that
+    number of times.</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script>
+function padChars(num,str){
+   newStr=""
+   for(var i=0;i<num;i++){
+       newStr+=str;
+   }
+   return newStr;
+}
+document.getElementById("demo1").innerHTML = padChars(5,'x');
+document.getElementById("demo2").innerHTML = padChars(7, "-");
+</script>
+
+</body>
+</html>

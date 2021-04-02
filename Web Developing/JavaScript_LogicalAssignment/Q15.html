@@ -1,0 +1,34 @@
+<!-- Modify the previous program such that only the users Alice and Bob are
+greeted with their names. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Modify the previous program such that only the users Alice and Bob are
+    greeted with their names.</p>
+
+
+
+<script>
+const userName1 = document.forms['form1'];
+
+
+userName.addEventListener('submit',function(e){
+   e.preventDefault();
+   let value = userName1.querySelector('input[type="text"]').value;
+   if(value==='Alice' || value==='Bob'){
+   const p = document.createElement('h2');
+   p.textContent = "Welcome : "+value;
+   n.appendChild(p);
+   }
+   else{
+       console.log("invlid name")
+   }
+
+});
+</script>
+
+</body>
+</html>

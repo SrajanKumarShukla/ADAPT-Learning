@@ -1,0 +1,59 @@
+<!-- Create a simple page that lets users type in some temperature value in the Fahrenheit scale and example, if the 
+user types
+Functionality
+At the least, your program should allow for the following
+User Input: One text field where the user will type in the temperature in Fahrenheit
+n is clicked, your program should check to see if
+the user has left the text field empty and also if what the user typed is a number and not anything
+else.
+If there are problems (as in II. above) then your program should show appropriate error
+messages
+Display results: If there are no errors and user input is valid, then your program should show the
+results to the user. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Create a simple page that lets users type in some temperature value in the Fahrenheit scale</p>
+
+
+
+<script>
+var temp = document.forms['form'];
+ 
+ function isNumeric(value) {
+    return /^-?\d+$/.test(value);
+ }
+ 
+ temp.addEventListener('submit',function(e){
+     e.preventDefault();
+     
+     let FahrenheitTemp = temp.querySelector('input[type="text"]').value;
+     console.log(FahrenheitTemp);
+     if(FahrenheitTemp==""){
+        let p = document.createElement('p');
+        p.style.color='red';
+        p.textContent = "Please Enter a value";
+        temp.appendChild(p);
+     }
+     else if(isNumeric(FahrenheitTemp)){
+             let calcius = (FahrenheitTemp-32)*(5/9);
+             let p = document.createElement('p');
+            
+             p.textContent = calcius+" degree calcius";
+             temp.appendChild(p);
+     }
+     else{
+        let p = document.createElement('p');
+        p.style.color='red';
+        p.textContent = "Please Enter a valid value";
+        temp.appendChild(p);
+     }
+ 
+ })
+</script>
+
+</body>
+</html>

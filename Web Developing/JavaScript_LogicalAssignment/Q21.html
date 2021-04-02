@@ -1,0 +1,36 @@
+<!-- Write a function that combines two lists by alternatingly taking elements -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Write a function that combines two lists by alternatingly taking elements</p>
+
+<p id="demo1"></p>
+
+<script>
+function alternateConcat(list1,list2){
+   let length= list1.length+list2.length;
+   newList=[]
+   let j=0;
+   let k=0;
+   for(let i=0;i<length;i++){
+       if(i%2==0){
+           newList[i]=list1[j++];
+       }
+       else{
+           newList[i]=list2[k++];
+       }
+   }
+   return newList;
+}
+
+let a = [5,10,15];
+let b = ['A', 'B', 'C'];
+
+document.getElementById("demo1").innerHTML = alternateConcat(a,b);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!-- Write a function that tests whether a string is a palindrome. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Write a function that tests whether a string is a palindrome.</p>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script>
+function isPallindrome(str){
+    let j=0;
+    for(let i=str.length;i>=0;i--){
+        if(str[i]===str[j]){
+            j++;
+        }
+    }
+    if(j==str.length){
+        return true;
+    }
+    return false;
+}
+
+document.getElementById("demo1").innerHTML =isPallindrome("Neeraj");
+document.getElementById("demo2").innerHTML =isPallindrome("bob");
+</script>
+
+</body>
+</html>

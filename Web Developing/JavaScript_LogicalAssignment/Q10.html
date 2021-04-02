@@ -1,0 +1,32 @@
+<!-- Make a function that given an array of strings, where each string represents a number, returns an
+array of the corresponding numbers. -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Make a function that given an array of strings, where each string represents a number, returns an
+    array of the corresponding numbers.</p>
+
+<p id="demo1"></p>
+
+<script>
+function numberArray(strings){
+   var list=[]
+   for(var i in strings){
+      
+       list.push(parseFloat(strings[i]));
+   }
+
+   return list;
+}
+var strings = ["1.2", "2.3", "3.4"];
+var nums = numberArray(strings);
+
+ 
+document.getElementById("demo1").innerHTML = nums;
+</script>
+
+</body>
+</html>

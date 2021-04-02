@@ -1,0 +1,36 @@
+<!-- Create an HTML page that will Prompt the user:
+It should take input for the number of rows and the number of columns
+Then it should create a table (HTML table) with the given number of row and columns
+Each cell of the table should contain the cell id (row#, col#) -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>Create an HTML page that will Prompt the user:
+    It should take input for the number of rows and the number of columns
+    Then it should create a table (HTML table) with the given number of row and columns
+    Each cell of the table should contain the cell id (row#, col#)</p>
+
+
+<script>
+function createTable()
+{
+rowNo = window.prompt("Enter the number of rows", 1);
+columnNo = window.prompt("Enter the number of columns",1);
+  
+ for(let i=0;i<parseInt(rowNo,10);i++)
+  {
+   var x=document.getElementById('customTable').insertRow(i);
+   for(let j=0;j<parseInt(columnNo,10);j++)  
+    {
+     var y=  x.insertCell(j);
+     y.innerHTML="Row-"+i+" Col-"+j; 
+    }
+   }
+}
+</script>
+
+</body>
+</html>
