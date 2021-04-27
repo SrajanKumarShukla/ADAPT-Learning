@@ -1,0 +1,9 @@
+server:
+   port: 8083
+spring:
+   application:
+      name: booking-management
+   data:
+      mongodb:
+         uri: mongodb+srv://admin:admin@flightbookingwebapp.n5q6g.mongodb.net/FlightBookingWebApp?retryWrites=true&w=majority
+
