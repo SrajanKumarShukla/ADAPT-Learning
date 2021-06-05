@@ -1,0 +1,65 @@
+spring:
+   application:
+      name: api-gateway
+   cloud:
+      gateway:
+         routes:
+         -  id: flight-management
+            uri: lb://flight-management
+            predicates:
+            - Path=/flight/**, /airline/** , /airport/**
+            filters:
+            -  name: CircuitBreaker
+               args:
+                  name: flight-management
+                  fallbackuri: forward:/flightFallBack    
+         -  id: fare-management
+            uri: lb://fare-management
+            predicates:
+            - Path=/fare/**
+            filters:
+            -  name: CircuitBreaker
+               args:
+                  name: fare-management
+                  fallbackuri: forward:/fareFallback
+         -  id: booking-management
+            uri: lb://booking-management
+            predicates:
+            - Path=/booking/**
+            filters:
+            -  name: CircuitBreaker
+               args:
+                  name: booking-management
+                  fallbackuri: forward:/bookingFallback
+         -  id: LOGIN-SERVICE
+            uri: ld://LOGIN-SERVICE
+            predicates:
+            - Path= /login         
+            filters:
+            -  name: CircuitBreaker
+               args:
+                  name: LOGIN-SERVICE
+                  fallbackuri: forward:/loginFallback
+         -  id: registration-service
+            uri: ld://registration-service
+            predicates:
+            - Path= /users/**         
+            filters:
+            -  name: CircuitBreaker
+               args:
+                  name: registration-service
+                  fallbackuri: forward:/registrationFallback         
+server:
+   port: 9090
+management:
+   endpoints:
+      web:
+         exposure:
+            include: hystrix.stream
+hystrix:
+   command:
+      fallbackcmd:
+         execution:
+            isolation:
+               thread:
+                  timeoutInMilliseconds: 5000

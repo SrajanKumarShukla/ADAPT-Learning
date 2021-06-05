@@ -28,6 +28,7 @@ public class Flight {
 	private String arrivalDate;
 	private String departureTime;
 	private String arrivalTime;
+	private Fare fare;
 	@NotNull(message = "seats must not be null")
 	private Integer seats;
 	private Integer flightFare;
@@ -35,9 +36,10 @@ public class Flight {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Flight(@NotEmpty(message = "flightId must not be empty") String id, @Valid Airline airline,
 			@Valid Airport departureAirport, @Valid Airport destinationAirport, String departureDate,
-			String arrivalDate, String departureTime, String arrivalTime,
+			String arrivalDate, String departureTime, String arrivalTime, Fare fare,
 			@NotNull(message = "seats must not be null") Integer seats, Integer flightFare) {
 		super();
 		this.id = id;
@@ -48,9 +50,11 @@ public class Flight {
 		this.arrivalDate = arrivalDate;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
+		this.fare = fare;
 		this.seats = seats;
 		this.flightFare = flightFare;
 	}
+
 	public String getId() {
 		return id;
 	}
@@ -99,6 +103,15 @@ public class Flight {
 	public void setArrivalTime(String arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
+	
+	public Fare getFare() {
+		return fare;
+	}
+
+	public void setFare(Fare fare) {
+		this.fare = fare;
+	}
+
 	public Integer getSeats() {
 		return seats;
 	}

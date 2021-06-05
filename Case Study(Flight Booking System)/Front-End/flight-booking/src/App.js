@@ -1,24 +1,27 @@
 import "./App.css";
+
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import ProtectedRoute from "./components/global/ProtectedRoute";
 
-import AddOrUpdateFlight from "./components/admin/flight/AddOrUpdateFlight";
 import AddOrUpdateAirline from "./components/admin/airline/AddOrUpdateAirline";
 import AddOrUpdateAirport from "./components/admin/airport/AddOrUpdateAirport";
 import UserBooking from "./components/user/UserBooking";
 import UserProfile from "./components/user/UserProfile";
 import UserRoute from "./components/global/UserRoute";
-import Header from "./components/global/Header";
-import Home from "./components/global/Home";
-import Footer from "./components/global/Footer";
-// import Register from "./components/auth/Register";
+import Header from "./components/global/Header/Header";
+import Home from "./components/global/Home/Home";
+import Footer from "./components/global/Footer/Footer";
+import AboutUs from "./components/aboutUs/AboutUs";
+import ContactUs from "./components/contactUs/ContactUs";
+import RefundPolicy from "./components/refundPolicy/RefundPolicy";
+import Register from "./components/auth/Register/Register";
 import ManageFare from "./components/admin/fare/ManageFare";
 import ManageFlight from "./components/admin/flight/ManageFlight";
 import AdminDashboard from "./components/admin/AdminDashboard";
-// import Login from "./components/auth/Login";
-import AddOrUpdateFare from "./components/admin/fare/AddOrUpdateFare";
+import Login from "./components/auth/Login/Login";
+import CovidGuidelines from "./components/covidGuidelines/CovidGuidelines"
 import FlightSearch from "./components/user/FlightSearch";
 
 import UserDashboard from "./components/user/UserDashboard";
@@ -26,8 +29,9 @@ import FlightBook from "./components/user/FlightBook";
 import UpdateBooking from "./components/admin/booking/UpdateBooking";
 import ManageBooking from "./components/admin/booking/ManageBooking";
 import Acknowledgment from "./components/user/Acknowledgment";
-import Log from "./components/auth/Log";
-import Reg from "./components/auth/Reg";
+// import Log from "./components/auth/Login";
+// import Reg from "./components/auth/Register";
+// import CheckIn from "./components/user/CheckIn";
 
 function App() {
   return (
@@ -42,10 +46,17 @@ function App() {
             <Route path="/" exact component={Home}></Route>
             <Route path="/home" component={Home}></Route>
             <Route path="/flights" component={FlightSearch}></Route>
-            {/* <Route path="/login" component={Login}></Route> */}
-            <Route path="/login" component={Log}></Route>
-            {/* <Route path="/register" component={Register}></Route> */}
-            <Route path="/register" component={Reg}></Route>
+            <Route path="/CovidGuidelines" component={CovidGuidelines}></Route>
+            <Route path="/aboutUs" component={AboutUs}></Route>
+            <Route path="/contactUs" component={ContactUs}></Route>
+            <Route path="/refundPolicy" component={RefundPolicy}></Route>
+            <Route path="/login" component={Login}></Route>
+            {/* <Route path="/login" component={Log}></Route> */}
+            <Route path="/register" component={Register}></Route>
+            {/* <Route path="/register" component={Reg}></Route> */}
+
+            {/* <Route path="/checkin" component={CheckIn}></Route> */}
+            {/* <Route path="/checkin/:id" component={CheckIn}></Route> */}
 
             {/* USER */}
 
@@ -72,27 +83,13 @@ function App() {
               path="/manage_flight"
               component={ManageFlight}
             ></ProtectedRoute>
-            <ProtectedRoute
-              path="/add_flight/:id"
-              component={AddOrUpdateFlight}
-            ></ProtectedRoute>
-            <ProtectedRoute
-              path="/update_flight/:id"
-              component={AddOrUpdateFlight}
-            ></ProtectedRoute>
+
             {/* Fare */}
             <ProtectedRoute
               path="/manage_fare"
               component={ManageFare}
             ></ProtectedRoute>
-            <ProtectedRoute
-              path="/add_fare/:id"
-              component={AddOrUpdateFare}
-            ></ProtectedRoute>
-            <ProtectedRoute
-              path="/update_fare/:id"
-              component={AddOrUpdateFare}
-            ></ProtectedRoute>
+
             {/* Booking */}
             <ProtectedRoute
               path="/manage_booking"

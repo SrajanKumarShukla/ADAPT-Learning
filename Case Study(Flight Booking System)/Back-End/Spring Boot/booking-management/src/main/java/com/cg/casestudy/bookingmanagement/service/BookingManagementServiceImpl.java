@@ -25,28 +25,18 @@ public class BookingManagementServiceImpl implements BookingManagementService {
 	@Lazy
 	private RestTemplate restTemplate;
 
-//	// (space between '$' and '{' is important)
-//	@Value("$ {microservice.flight-management.endpoints.endpoint.uri}")
-//	private String FLIGHT_ENDPOINT_URL;
-//
-//	// (space between '$' and '{' is important)
-//	@Value("$ {microservice.fare-management.endpoints.endpoint.uri}")
-//	private String FARE_ENDPOINT_URL;
-
-	// Getting 'Flight & Fare object combined ' from 'flight-search' & 'flight-fare'
-	// Microservices
+	/** Getting 'Flight & Fare object combined ' from 'flight-search' & 'flight-fare' Microservices */
 	@Override
 	public Optional<Flight> getFlight(String flightId) {
-
-		// Getting the Flight from Flight Search Microservice using RestTemplate
 		try {
+			/** Getting the Flight from Flight Search Microservice using RestTemplate */
 			Flight flight = restTemplate.getForObject("http://flight-management/flight" + "/getFlight/" + flightId,
 					Flight.class);
-			try {
-				// Getting the Fare from Flight Fare Microservice using RestTemplate
-				Fare fare = restTemplate.getForObject("http://fare-management/fare" + "/getFare/" + flightId,
-						Fare.class);
-				flight.setFlightFare(fare.getFlightFare());
+		try {
+			/** Getting the Fare from Flight Fare Microservice using RestTemplate */
+			Fare fare = restTemplate.getForObject("http://fare-management/fare" + "/getFare/" + flightId,
+					Fare.class);
+			flight.setFlightFare(fare.getFlightFare());
 			} catch (Exception e) {
 				flight.setFlightFare(0);
 			}
@@ -58,7 +48,7 @@ public class BookingManagementServiceImpl implements BookingManagementService {
 
 	}
 
-	// Getting 'Booking List related to the userID from BookingManagementReopsitory
+	/** Getting 'Booking List related to the userID from BookingManagementReopsitory */
 	@Override
 	public List<Booking> getBookingsByUserId(String userId) {
 		List<Booking> bookingList = bookingManagementRepository.findByUserId(userId);
@@ -69,7 +59,7 @@ public class BookingManagementServiceImpl implements BookingManagementService {
 
 	}
 
-	// Getting 'All Booking List' from BookingManagementReopsitory
+	/** Getting 'All Booking List' from BookingManagementReopsitory */
 	@Override
 	public List<Booking> getAllBookings() {
 		List<Booking> allBookingList = bookingManagementRepository.findAll();
@@ -79,7 +69,7 @@ public class BookingManagementServiceImpl implements BookingManagementService {
 		return allBookingList;
 	}
 
-	// Getting 'Booking object/Optional' from BookingManagementReopsitory
+	/** Getting 'Booking object/Optional' from BookingManagementReopsitory */
 	@Override
 	public Optional<Booking> getBooking(String bookingId) {
 		Optional<Booking> booking = bookingManagementRepository.findById(bookingId);
@@ -89,21 +79,21 @@ public class BookingManagementServiceImpl implements BookingManagementService {
 		return booking;
 	}
 
-	// Adding 'Booking' to database using BookingManagementReopsitory
+	/** Adding 'Booking' to database using BookingManagementReopsitory */
 	@Override
 	public String addBooking(Booking booking) {
 		bookingManagementRepository.save(booking);
 		return "Booking Added with : " + booking.getId();
 	}
 
-	// Updating 'Booking' to database using BookingManagementReopsitory
+	/** Updating 'Booking' to database using BookingManagementReopsitory */
 	@Override
 	public String updateBooking(Booking booking) {
 		bookingManagementRepository.save(booking);
 		return "Booking Updated with : " + booking.getId();
 	}
 
-	// Deleting 'Booking' by Flight Id in database using FareReopsitory
+	/** Deleting 'Booking' by Flight Id in database using FareReopsitory */
 		@Override
 		public String deleteBooking(String bookingId) {
 			if (bookingManagementRepository.existsById(bookingId)) {

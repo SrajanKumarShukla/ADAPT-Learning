@@ -15,33 +15,33 @@ public class AirlineServiceImpl implements AirlineService {
 	@Autowired
 	private AirlineRepository airlineRepo;
 
-	// Getting All Airlines
+	/** Getting All Airlines */
 	@Override
 	public List<Airline> getAllAirlines() {
 		return airlineRepo.findAll();
 	}
 
-	// Getting the Airline
+	/*** Getting the Airline */
 	@Override
 	public Optional<Airline> getAirline(String id) {
 		return airlineRepo.findById(id);
 	}
 
-	// Adding the Airline
+	/*** Adding the Airline */
 	@Override
 	public String addAirline(Airline airline) {
 		airlineRepo.save(airline);
 		return "Airline Added  with id : " + airline.getId();
 	}
 
-	// Updating the Airline
+	/*** Updating the Airline */
 	@Override
 	public String updateAirline(Airline airline) {
 		airlineRepo.save(airline);
 		return "Airline Updated  with id : " + airline.getId();
 	}
 	
-	// Deleting the Airline
+	/*** Deleting the Airline */
 	@Override
 	public String deleteAirline(String id) {
 		airlineRepo.deleteById(id);

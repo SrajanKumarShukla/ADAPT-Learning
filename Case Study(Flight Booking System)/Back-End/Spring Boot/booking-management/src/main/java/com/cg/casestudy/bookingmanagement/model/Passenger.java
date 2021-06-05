@@ -27,7 +27,7 @@ public class Passenger {
 	@Range(min=5, max=120, message="age must be 5 to 120")
 	private Integer age;
 	private String gender;
-
+	private String seatNo;
 	public Passenger() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -44,6 +44,7 @@ public class Passenger {
 		this.lastName = lastName;
 		this.age = age;
 		this.gender = gender;
+		this.seatNo = seatNo;
 	}
 	public String getId() {
 		return id;
@@ -81,11 +82,16 @@ public class Passenger {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
+	public String getSeatNo() {
+		return seatNo;
+	}
+	public void setSeatNo(String seatNo) {
+		this.seatNo = seatNo;
+	}
 	@Override
 	public String toString() {
 		return "Passenger [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName="
-				+ lastName + ", age=" + age + ", gender=" + gender + ", seatNo=" + "]";
+				+ lastName + ", age=" + age + ", gender=" + gender + ", seatNo=" + seatNo + "]";
 	}
 	
 }

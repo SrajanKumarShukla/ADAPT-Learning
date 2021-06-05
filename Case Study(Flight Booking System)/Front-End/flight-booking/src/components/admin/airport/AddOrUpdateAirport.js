@@ -3,6 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import FlightService from "../../../services/FlightService";
 
 function AddOrUpdateAirport() {
+  const backEndTokenFlight = localStorage.getItem("backEndTokenFlight");
   const history = useHistory();
   const { id } = useParams();
   const [airportId, setAirportId] = useState("");
@@ -24,21 +25,20 @@ function AddOrUpdateAirport() {
     }
   }, [id]);
 
-  const save = (e) => {
-    e.preventDefault();
+  const save = () => {
     let airport = {
       id: airportId,
       airportCode: airportCode,
       airportName: airportName,
     };
     if (id === "add") {
-      FlightService.addAirport(airport)
+      FlightService.addAirport(airport, backEndTokenFlight)
         .then((res) => {
           history.push("/add_or_update_airport/add");
         })
         .catch((error) => console.error(`Error :  ${error}`));
     } else {
-      FlightService.updateAirport(airport)
+      FlightService.updateAirport(airport, backEndTokenFlight)
         .then((res) => {
           history.push("/add_or_update_airport/:id");
         })
@@ -58,13 +58,13 @@ function AddOrUpdateAirport() {
     <div>
       <br></br>
       <div className="container">
-        <div className="row">
-          <div className="card col-md-6 offset-md-3 offset-md-3">
-            <div className="card-body"></div>
+        <div className="containerCardSearch">
+          <div className="upperSearch">
+            <div className="row"></div>
             <form>
               {getTitle()}
 
-              <div className="form-group">
+              <div className="col-sm">
                 <label>Id</label>
                 <input
                   type="text"
@@ -78,7 +78,7 @@ function AddOrUpdateAirport() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="col-sm">
                 <label>Airport Code</label>
                 <input
                   type="text"
@@ -92,7 +92,7 @@ function AddOrUpdateAirport() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="col-sm">
                 <label>Airport Name</label>
                 <input
                   type="email"
@@ -105,10 +105,13 @@ function AddOrUpdateAirport() {
                   }}
                 />
               </div>
-
-              <button onClick={save} className="btn btn-primary btn-block">
-                Save
-              </button>
+              <br></br>
+              <div className="col-sm">
+                {" "}
+                <button onClick={save} className="btn btn-primary btn-block">
+                  Add
+                </button>
+              </div>
             </form>
             <br></br>
           </div>

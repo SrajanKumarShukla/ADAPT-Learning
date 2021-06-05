@@ -25,32 +25,31 @@ public class AirlineController {
 	@Autowired
 	private AirlineService airlineService;
 
-	// Getting REST GET request and returning 'all flights list' from
-	// AirlineService
+	/***Receiving GET request and returning 'all flights list' from AirlineService */
 	@GetMapping(value = "/allAirlines")
 	public List<Airline> getAllAirlines() {
 		return airlineService.getAllAirlines();
 	}
 
-	// Getting REST GET request and returning 'one flight' from AirlineService
+	/***Receiving GET request and returning 'one flight' from AirlineService */
 	@GetMapping("/getAirline/{id}")
 	public Optional<Airline> getAirline(@PathVariable String id) {
 		return airlineService.getAirline(id);
 	}
 
-	// Getting REST POST request and returning response from AirlineService
+	/***Receiving POST request and returning response from AirlineService */
 	@PostMapping("/addAirline")
 	public String addAirline(@RequestBody Airline flight) {
 		return airlineService.addAirline(flight);
 	}
 
-	// Getting REST PUT request and returning response from AirlineService
+	/***Receiving PUT request and returning response from AirlineService */
 	@PutMapping("/updateAirline")
 	public String updateAirline(@RequestBody Airline flight) {
 		return airlineService.updateAirline(flight);
 	}
 
-	// Getting REST DELETE request and returning response from AirlineService
+	/***Receiving DELETE request and returning response from AirlineService */
 	@DeleteMapping("/deleteAirline/{id}")
 	public String deleteAirline(@PathVariable String id) {
 		return airlineService.deleteAirline(id);

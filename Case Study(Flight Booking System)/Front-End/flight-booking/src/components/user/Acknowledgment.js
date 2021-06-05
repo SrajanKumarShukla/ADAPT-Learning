@@ -5,11 +5,12 @@ import FlightService from "../../services/FlightService";
 
 function Acknowledgment() {
   const { id } = useParams();
+  const backEndTokenBooking = localStorage.getItem("backEndTokenBooking");
   const [booking, setBooking] = useState({});
   const [payment, setPayment] = useState({});
 
   useEffect(() => {
-    FlightService.getBooking(id)
+    FlightService.getBooking(id, backEndTokenBooking)
       .then((response) => {
         setBooking(response.data);
       })
@@ -22,31 +23,52 @@ function Acknowledgment() {
         console.log(response.data);
         setPayment(response.data);
       });
-  }, [id]);
+  }, [id, backEndTokenBooking]);
 
   return (
     <div>
       <div className="container">
-        <div className="row mt-5 pt-5">
-          <div className="col-md-6 offset-md-3 offset-md-3 grid-margin">
-            <div className="card h-100">
-              <h4 className="card-header">Acknowledgment</h4>
-              <div className="card-body">
-                <form className="text-center">
-                  <h4>Thank You For the Booking</h4>
-                  <br />
-                  <h6>Booking Id</h6>
-                  <p>{id}</p>
-                  <h6>Payment Id</h6>
-                  <p>{payment.paymentid}</p>
-                  <h6>Amount Paid</h6>
-                  <p>{payment.totalamount}</p>
-                  <p>
-                    Status : {booking.active === true ? "Booked" : "Not Booked"}
-                  </p>
-                </form>
+        <div className="containerAck">
+          <div className="upperAck">
+            <h4>Thank You For the Booking</h4>
+            <br />
+
+            <form className="row align-items-start">
+              <div className="col-sm">
+                <label> Booking Id </label>
+                <p>{id}</p>
               </div>
-            </div>
+              <div className="col-sm">
+                <label> PNR No </label>
+                <p>{booking.pnrNo}</p>
+              </div>
+
+              <div className="col-sm">
+                <label> Payment Id </label>
+                <p>{payment.paymentid}</p>
+              </div>
+
+              {/* <div className="col-sm">
+                <label> Signature </label>
+                <p>{payment.signature}</p>
+              </div> */}
+
+              <div className="col-sm">
+                <label> Amount Paid</label>
+                <p>{payment.totalamount}</p>
+              </div>
+
+              <div className="col-sm">
+                <label> Date </label>
+                <p>{new Date().toLocaleString()}</p>
+              </div>
+
+              <div className="col-sm">
+                <label> Status </label>
+                <p>{booking.active === true ? "Booked" : "Not Booked"}</p>
+              </div>
+            </form>
+            {/* <Button className="btn btn-success">Invoice</Button> */}
           </div>
         </div>
       </div>

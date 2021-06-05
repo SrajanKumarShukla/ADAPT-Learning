@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.cg.casestudy.flightmanagement.model.Airline;
 import com.cg.casestudy.flightmanagement.model.Airport;
+import com.cg.casestudy.flightmanagement.model.Fare;
 import com.cg.casestudy.flightmanagement.model.Flight;
 import com.cg.casestudy.flightmanagement.model.Search;
 import com.cg.casestudy.flightmanagement.service.FlightManagementService;
@@ -45,17 +46,17 @@ class FlightManagementControllerTest {
 	@BeforeEach
 	void setUp() {
 
-		search = new Search("CCU", "DEL");
+		search = new Search("CCU", "DEL","2021-04-30");
 
-		flights = List.of(
-				new Flight("CD105", new Airline("1", "AA105", "AirAlpha"), new Airport("1", "CCU", "Kolkata"),
-						new Airport("2", "DEL", "Delhi"), "21-04-2021", "21-04-2021", "22:20", "00:20", 100),
-				new Flight("CD106", new Airline("1", "AA105", "AirAlpha"), new Airport("1", "CCU", "Kolkata"),
-						new Airport("2", "DEL", "Delhi"), "21-04-2021", "21-04-2021", "22:20", "00:20", 100),
-				new Flight("CD107", new Airline("1", "AA105", "AirAlpha"), new Airport("1", "CCU", "Kolkata"),
-						new Airport("2", "DEL", "Delhi"), "21-04-2021", "21-04-2021", "22:20", "00:20", 100));
-		flight = new Flight("CD107", new Airline("2", "AB109", "AirBravo"), new Airport("1", "CCU", "Kolkata"),
-				new Airport("2", "DEL", "Delhi"), "25-04-2021", "25-04-2021", "12:20", "02:20", 100);
+				flights = List.of(
+						new Flight("CD105", new Airline("1", "AA105", "AirAlpha"), new Airport("1", "CCU", "Kolkata"),
+								new Airport("2", "DEL", "Delhi"), "2021-04-30", "2021-04-30", "22:20", "00:20",new Fare(), 100),
+						new Flight("CD106", new Airline("1", "AA105", "AirAlpha"), new Airport("1", "CCU", "Kolkata"),
+								new Airport("2", "DEL", "Delhi"), "2021-04-30", "2021-04-30", "22:20", "00:20",new Fare(), 100),
+						new Flight("CD107", new Airline("1", "AA105", "AirAlpha"), new Airport("1", "CCU", "Kolkata"),
+								new Airport("2", "DEL", "Delhi"), "2021-04-30", "2021-04-30", "22:20", "00:20",new Fare(), 100));
+				flight = new Flight("CD107", new Airline("2", "AB109", "AirBravo"), new Airport("1", "CCU", "Kolkata"),
+						new Airport("2", "DEL", "Delhi"), "2021-04-30", "2021-04-30", "12:20", "02:20",new Fare(), 100);
 	}
 
 	@Test
@@ -64,7 +65,7 @@ class FlightManagementControllerTest {
 		Mockito.when(flightService.getFlights(Mockito.any(Search.class))).thenReturn(flights);
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.post("/flights").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/flight/flights").contentType(MediaType.APPLICATION_JSON)
 						.content(mapper.writeValueAsString(search).getBytes(StandardCharsets.UTF_8))
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
@@ -80,7 +81,7 @@ class FlightManagementControllerTest {
 		Mockito.when(flightService.getAllFlights()).thenReturn(flights);
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.get("/allFlights").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.get("/flight/allFlights").contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
@@ -95,7 +96,7 @@ class FlightManagementControllerTest {
 		Mockito.when(flightService.getFlight(flight.getId())).thenReturn(Optional.of(flight));
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.get("/getFlight/" + flight.getId())
+				.perform(MockMvcRequestBuilders.get("/flight/getFlight/" + flight.getId())
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
@@ -111,7 +112,7 @@ class FlightManagementControllerTest {
 				.thenReturn("Flight and Fare added  with id : " + flight.getId());
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.post("/addFlight").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/flight/addFlight").contentType(MediaType.APPLICATION_JSON)
 						.content(mapper.writeValueAsString(flight).getBytes(StandardCharsets.UTF_8))
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
@@ -129,7 +130,7 @@ class FlightManagementControllerTest {
 				.thenReturn("Flight Updated with id : " + flight.getId());
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.put("/updateFlight").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.put("/flight/updateFlight").contentType(MediaType.APPLICATION_JSON)
 						.content(mapper.writeValueAsString(flight).getBytes(StandardCharsets.UTF_8))
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
@@ -147,7 +148,7 @@ class FlightManagementControllerTest {
 				.thenReturn("Flight Deleted with id : " + flight.getId());
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.delete("/deleteFlight/" + flight.getId())
+				.perform(MockMvcRequestBuilders.delete("/flight/deleteFlight/" + flight.getId())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(mapper.writeValueAsString(flight).getBytes(StandardCharsets.UTF_8))
 						.accept(MediaType.APPLICATION_JSON))

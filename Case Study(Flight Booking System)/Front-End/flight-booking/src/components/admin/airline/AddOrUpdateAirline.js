@@ -4,6 +4,7 @@ import { useParams, useHistory } from "react-router-dom";
 import FlightService from "../../../services/FlightService";
 
 function AddOrUpdateAirline() {
+  const backEndTokenFlight = localStorage.getItem("backEndTokenFlight");
   const history = useHistory();
   const { id } = useParams();
   const [airlineId, setAirlineId] = useState("");
@@ -25,23 +26,22 @@ function AddOrUpdateAirline() {
     }
   }, [id]);
 
-  const save = (e) => {
-    e.preventDefault();
+  const save = () => {
     let airline = {
       id: airlineId,
       airlineNo: airlineNo,
       airlineName: airlineName,
     };
     if (id === "add") {
-      FlightService.addAirline(airline)
+      FlightService.addAirline(airline, backEndTokenFlight)
         .then((res) => {
-          history.push("/addOrUpdateAirline/add");
+          history.push("/add_or_update_airline/add");
         })
         .catch((error) => console.error(`Error :  ${error}`));
     } else {
-      FlightService.updateAirline(airline).then((res) => {
+      FlightService.updateAirline(airline, backEndTokenFlight).then((res) => {
         history
-          .push("/addOrUpdateAirline/:id")
+          .push("/add_or_update_airline/:id")
           .catch((error) => console.error(`Error :  ${error}`));
       });
     }
@@ -59,13 +59,13 @@ function AddOrUpdateAirline() {
     <div>
       <br></br>
       <div className="container">
-        <div className="row">
-          <div className="card col-md-6 offset-md-3 offset-md-3">
-            <div className="card-body"></div>
+        <div className="containerCardSearch">
+          <div className="upperSearch">
+            <div className="row"></div>
             <form>
               {getTitle()}
 
-              <div className="form-group">
+              <div className="col-sm">
                 <label>Id</label>
                 <input
                   type="text"
@@ -79,7 +79,7 @@ function AddOrUpdateAirline() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="col-sm">
                 <label>Airline No</label>
                 <input
                   type="text"
@@ -93,10 +93,10 @@ function AddOrUpdateAirline() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="col-sm">
                 <label>Airline Name</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   placeholder="Airline Name"
                   name="airlineName"
@@ -106,10 +106,13 @@ function AddOrUpdateAirline() {
                   }}
                 />
               </div>
-
-              <button onClick={save} className="btn btn-primary btn-block">
-                Save
-              </button>
+              <br></br>
+              <div className="col-sm">
+                {" "}
+                <button onClick={save} className="btn btn-primary btn-block">
+                  Add
+                </button>
+              </div>
             </form>
             <br></br>
           </div>

@@ -69,7 +69,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(status).body(error);
 	}
 
-	// Handling exception if inputs are not valid
+	/*** Handling exception if inputs are not valid */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -81,23 +81,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
-	// Custom Exception - Handling exception if 'Fare' is not available in the
-	// database
+	/*** Custom Exception - Handling exception if 'Fare' is not available in the database */
 	@ExceptionHandler(FlightNotFoundException.class)
 	public ResponseEntity<Object> handleFareNotFoundException(FlightNotFoundException ex, WebRequest request) {
 		CustomError error = new CustomError(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
-	// Custom Exception - Handling exception if 'Id' is not available in the
-	// database
+	/*** Custom Exception - Handling exception if 'Id' is not available in the database */
 	@ExceptionHandler(IdNotFoundException.class)
 	public ResponseEntity<Object> handleIdNotFoundException(IdNotFoundException ex, WebRequest request) {
 		CustomError error = new CustomError(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
-	// Custom Exception - Handling All other exceptions
+	/*** Custom Exception - Handling All other exceptions */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleOtherException(Exception ex, WebRequest request) {
 		CustomError error = new CustomError(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));

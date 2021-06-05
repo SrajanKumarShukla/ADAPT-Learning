@@ -9,8 +9,8 @@ export default function validate(values) {
 
   if (!values.username) {
     errors.username = "Username is required";
-  } else if (values.username.length < 5) {
-    errors.username = "Username must be 5 or more characters";
+  } else if (values.username.length < 4) {
+    errors.username = "Username must be 4 or more characters";
   }
 
   if (!values.email) {

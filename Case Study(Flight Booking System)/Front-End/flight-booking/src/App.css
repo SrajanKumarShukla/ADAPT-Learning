@@ -20,6 +20,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  min-width: auto;
+  min-height: auto;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -38,12 +41,30 @@
 }
 
 .footer {
-  position: relative;
-  padding-top: 10px;
+  position: fixed;
+  left: 0;
   bottom: 0;
   width: 100%;
-
+  background-color: #222934;
+  color: white;
   text-align: center;
+  padding: 0.7rem 0.7rem 0.7rem;
+}
+
+.header {
+  /* position: fixed; */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #222934;
+  color: white;
+  text-align: center;
+  padding: 0.9rem 0.9rem 0.9rem 0.9rem;
+  overflow: hidden;
+}
+
+.container {
+  padding-bottom: 20px;
 }
 
 /* .myContainer input {

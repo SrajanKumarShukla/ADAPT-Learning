@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.cg.casestudy.flightmanagement.FlightManagementApplication;
 import com.cg.casestudy.flightmanagement.model.Airline;
 import com.cg.casestudy.flightmanagement.model.Airport;
+import com.cg.casestudy.flightmanagement.model.Fare;
 import com.cg.casestudy.flightmanagement.model.Flight;
 import com.cg.casestudy.flightmanagement.model.Search;
 import com.cg.casestudy.flightmanagement.repository.FlightManagementRepository;
@@ -36,17 +37,17 @@ class FlightManagementServiceImplTest {
 
 	public static Flight flight1 = new Flight("CDAA105", new Airline("1", "AA105", "AirAlpha"),
 			new Airport("1", "CCU", "Kolkata"), new Airport("2", "DEL", "Delhi"), "21-04-2021", "21-04-2021", "22:20",
-			"00:20", 100);
+			"00:20",new Fare(), 100);
 	public static Flight flight2 = new Flight("CBAB102", new Airline("2", "AB102", "AirBravo"),
 			new Airport("1", "CCU", "Kolkata"), new Airport("3", "BOM", "Mumbai"), "22-05-2021", "21-05-2021", "21:20",
-			"23:40", 150);
+			"23:40",new Fare(), 150);
 
 	@Test
 	public void getFlightsTest() {
 
-		when(repository.findByDepartureAirportAirportCodeAndDestinationAirportAirportCode("DEL", "BOM"))
+		when(repository.findByDepartureAirportAirportCodeAndDestinationAirportAirportCodeAndDepartureDate("DEL", "BOM", "2021-0-30"))
 				.thenReturn(Stream.of(flight2).collect(Collectors.toList()));
-		assertEquals(1, service.getFlights(new Search("DEL", "BOM")).size());
+		assertEquals(1, service.getFlights(new Search("DEL", "BOM", "2021-0-30")).size());
 	}
 
 	@Test
@@ -63,21 +64,5 @@ class FlightManagementServiceImplTest {
 		assertEquals(Optional.of(flight1), service.getFlight("CD105"));
 	}
 
-	@Test
-	public void addFlightTest() {
-		when(repository.save(flight1)).thenReturn(flight1);
-		assertEquals("Flight and Fare added with id : " + flight1.getId(), service.addFlight(flight1));
-	}
-	@Test
-	public void updateFlightTest() {
-		when(repository.save(flight1)).thenReturn(flight1);
-		assertEquals("Flight updated with id : " + flight1.getId(), service.updateFlight(flight1));
-	}
-
-	@Test
-	public void deleteFlightTest() {
-		service.deleteFlight(flight1.getId());
-		verify(repository, times(1)).deleteById(flight1.getId());
-	}
 
 }

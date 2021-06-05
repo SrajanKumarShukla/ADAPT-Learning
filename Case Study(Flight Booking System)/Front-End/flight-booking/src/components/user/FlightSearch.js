@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import FlightService from "../../services/FlightService";
-import { Button, Table } from "react-bootstrap";
+// import iconFlight from "../../image/plane.svg";
 
 function FlightSearch() {
   const history = useHistory();
@@ -9,12 +9,14 @@ function FlightSearch() {
   const [airportList, setAirportList] = useState([]);
   const [departureAirportCode, setDepartureAirportCode] = useState("");
   const [destinationAirportCode, setDestinationAirportCode] = useState("");
+  const [departureDate, setDepartureDate] = useState("");
+
+  // const [open, setOpen] = useState(false);
 
   useEffect(() => {
     //Getting Airports list
     FlightService.getAllAirports()
       .then((response) => {
-        setAirportList(response.data);
         setAirportList(response.data);
       })
       .catch((error) => console.error(`Error :  ${error}`));
@@ -25,6 +27,7 @@ function FlightSearch() {
     let search = {
       departureAirport: departureAirportCode,
       destinationAirport: destinationAirportCode,
+      departureDate: departureDate,
     };
     FlightService.getFlights(search)
       .then((response) => {
@@ -40,130 +43,155 @@ function FlightSearch() {
     history.push(`/booking/${id}`);
   };
 
+  // const handleClick = () => {
+  //   if (open) {
+  //     setOpen(false);
+  //   } else {
+  //     setOpen(true);
+  //   }
+  // };
+
   return (
     <div>
       <div className="container">
-        <div className="row mt-5 pt-5">
-          <div className="col-lg-4 mb-5 grid-margin">
-            <div className="card h-100">
-              <h4 className="card-header">Search Flights</h4>
-              <div className="card-body">
-                <form>
-                  <br></br>
-                  <div className="form-group">
-                    <label> Departure Airport: </label>
-                    <select
-                      className="form-control"
-                      name="departureAirport"
-                      value={departureAirportCode || ""}
-                      onChange={(e) => {
-                        setDepartureAirportCode(e.target.value);
-                      }}
+        <div className="containerCardSearch">
+          <div className="upperSearch">
+            <p>Search Flights</p>
+
+            <div className="row">
+              <div className="col-sm">
+                <label> Departure Airport </label>
+                <select
+                  className="form-control"
+                  name="departureAirport"
+                  value={departureAirportCode || ""}
+                  onChange={(e) => {
+                    setDepartureAirportCode(e.target.value);
+                  }}
+                >
+                  <option value="-">-</option>
+                  {airportList.map((airport) => (
+                    <option
+                      key={airport.airportCode}
+                      value={airport.airportCode}
                     >
-                      <option value="">-</option>
-                      {airportList.map((airport) => (
-                        <option
-                          key={airport.airportCode}
-                          value={airport.airportCode}
-                        >
-                          {airport.airportCode}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <br></br>
-                  <div className="form-group">
-                    <label> Destination Airport: </label>
-                    <select
-                      className="form-control"
-                      name="destinatonAirport"
-                      value={destinationAirportCode || ""}
-                      onChange={(e) => {
-                        setDestinationAirportCode(e.target.value);
-                      }}
-                    >
-                      <option value="">-</option>
-                      {airportList.map((airport) => (
-                        <option
-                          key={airport.airportCode}
-                          value={airport.airportCode}
-                        >
-                          {airport.airportCode}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <br></br>
-                  <br></br>
-                  <div className="text-center">
-                    <Button className="btn btn-info" onClick={searchFlights}>
-                      Search
-                    </Button>
-                  </div>
-                  <br></br>
-                </form>
+                      {`${airport.airportName} (${airport.airportCode})`}
+                    </option>
+                  ))}
+                </select>
               </div>
+
+              <div className="col-sm">
+                <label> Destination Airport </label>
+                <select
+                  className="form-control"
+                  name="destinatonAirport"
+                  value={destinationAirportCode || ""}
+                  onChange={(e) => {
+                    setDestinationAirportCode(e.target.value);
+                  }}
+                >
+                  <option value="-">-</option>
+                  {airportList.map((airport) => (
+                    <option
+                      key={airport.airportCode}
+                      value={airport.airportCode}
+                    >
+                      {`${airport.airportName} (${airport.airportCode})`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="col-sm">
+                <label> Date </label>
+                <input
+                  type="date"
+                  min={new Date().toISOString().slice(0, 10)}
+                  placeholder="Date"
+                  name="date"
+                  className="form-control"
+                  value={departureDate}
+                  onChange={(e) => {
+                    setDepartureDate(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <br></br>
+
+            <div className="col-sm">
+              <button
+                id="search"
+                className=" btn-block secondary-button button cursor-pointer bold"
+                onClick={searchFlights}
+              >
+                Search
+              </button>
             </div>
           </div>
-          {flights.length !== 0 ? (
-            <div className="col-lg-8 mb-5 grid-margin">
-              <div className="card h-100">
-                <h4 className="card-header">
-                  Available Flights {departureAirportCode}{" "}
-                  {destinationAirportCode}
-                </h4>
-                <div className="card-body">
-                  <Table
-                    striped
-                    bordered
-                    hover
-                    style={{
-                      height: "300px",
-                      overflow: "scroll",
-                      display: "block",
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <td> Flight Id</td>
-                        <td> Flight Name</td>
-                        {/* <td> Departure Airport</td>
-                      <td> Destination Airport</td> */}
-                        <td> Departure Date</td>
-                        <td> Arrival Date</td>
-                        <td> Departure Time</td>
-                        <td> Arrival Time</td>
-                        <td> Select</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {flights.map((flight) => (
-                        <tr key={flight.id}>
-                          <td> {flight.id}</td>
-                          <td> {flight.airline.airlineName}</td>
-                          {/* <td> {flight.departureAirport.airportCode}</td>
-                        <td> {flight.destinationAirport.airportCode}</td> */}
-                          <td> {flight.departureDate}</td>
-                          <td> {flight.arrivalDate}</td>
-                          <td> {flight.departureTime}</td>
-                          <td> {flight.arrivalTime}</td>
-                          <td>
-                            <button
-                              onClick={() => selectFlight(flight.id)}
-                              className="btn btn-info"
-                            >
-                              Select
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+        </div>
+
+        {flights.length !== 0
+          ? flights.map((flight, idx) => (
+              <div key={idx} className="containerCard">
+                <div className="upper">
+                  <h2 className="text-center">
+                    {flight.airline.airlineName} - {flight.id}
+                  </h2>
+                  <h3>
+                    <div className="cardsFlightMain text-center">
+                      <div className="col-sm">
+                        {" "}
+                        <span>{flight.departureTime}</span>
+                        <br />
+                        {flight.departureAirport.airportName}
+                      </div>
+                      <div className="col-sm">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <polygon points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9" />
+                        </svg>
+                      </div>
+                      <div className="col-sm">
+                        {" "}
+                        <span>{flight.arrivalTime}</span>
+                        <br />
+                        {flight.destinationAirport.airportName}
+                      </div>
+
+                      <div className="col-sm">
+                        <span>{"Departure Date"}</span>
+                        <br />
+                        {flight.departureDate}
+                      </div>
+
+                      <div className="col-sm">
+                        <span>{"Arrival Date"}</span>
+                        <br />
+                        {flight.arrivalDate}
+                      </div>
+
+                      <div className="col-sm">
+                        <h2>{"\u20B9" + flight.fare.flightFare}</h2>
+                      </div>
+                    </div>
+
+                    <div className="col-sm">
+                      <button
+                        className="btn-block secondary-button button cursor-pointer bold"
+                        onClick={(e) => selectFlight(flight.id)}
+                      >
+                        Book
+                      </button>
+                    </div>
+                  </h3>
                 </div>
               </div>
-            </div>
-          ) : null}
-        </div>
+            ))
+          : null}
       </div>
     </div>
   );

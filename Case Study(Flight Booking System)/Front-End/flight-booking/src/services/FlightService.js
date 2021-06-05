@@ -1,26 +1,32 @@
 import axios from "axios";
 
-//Right Now global API gateway "http://localhost:9090"is not stable, thats why I am using original ports
-
 //Flight Search Microservice
-const FLIGHT_SEARCH_REST_API_URL = "http://localhost:8081/flight";
+const FLIGHT_SEARCH_REST_API_URL = "http://localhost:9090/flight";
 
 //Flight Search Microservice
 const FLIGHT_SEARCH_AIRLINE_REST_API_URL =
-  "http://localhost:8081/flight/airline";
+  "http://localhost:9090/flight/airline";
 
 //Flight Search Microservice
 const FLIGHT_SEARCH_AIRPORT_REST_API_URL =
-  "http://localhost:8081/flight/airport";
+  "http://localhost:9090/flight/airport";
 
 //Flight Fare Microservice
-const FLIGHT_FARE_REST_API_URL = "http://localhost:8082/fare";
+const FLIGHT_FARE_REST_API_URL = "http://localhost:9090/fare";
 
 //Flight Book Microservice
-const FLIGHT_BOOK_REST_API_URL = "http://localhost:8083/booking";
+const FLIGHT_BOOK_REST_API_URL = "http://localhost:9090/booking";
 
-//Flight Book Microservice
-const FLIGHT_CHECKIN_REST_API_URL = "http://localhost:8084/checkin";
+
+//Header Generator
+const generateHeader = (backEndToken) => {
+  let header = {
+    headers: {
+      Authorization: "Bearer " + backEndToken,
+    },
+  };
+  return header;
+};
 
 class FlightSearchService {
   //Flight Search Microservice
@@ -34,15 +40,24 @@ class FlightSearchService {
   getFlight(flightId) {
     return axios.get(FLIGHT_SEARCH_REST_API_URL + "/getFlight/" + flightId);
   }
-  addFlght(flight) {
-    return axios.post(FLIGHT_SEARCH_REST_API_URL + "/addFlight", flight);
+  addFlight(flight, backEndTokenFlight) {
+    return axios.post(
+      FLIGHT_SEARCH_REST_API_URL + "/addFlight",
+      flight,
+      generateHeader(backEndTokenFlight)
+    );
   }
-  updateFlight(flight) {
-    return axios.put(FLIGHT_SEARCH_REST_API_URL + "/updateFlight", flight);
+  updateFlight(flight, backEndTokenFlight) {
+    return axios.put(
+      FLIGHT_SEARCH_REST_API_URL + "/updateFlight",
+      flight,
+      generateHeader(backEndTokenFlight)
+    );
   }
-  deleteFlight(flightId) {
+  deleteFlight(flightId, backEndTokenFlight) {
     return axios.delete(
-      FLIGHT_SEARCH_REST_API_URL + "/deleteFlight/" + flightId
+      FLIGHT_SEARCH_REST_API_URL + "/deleteFlight/" + flightId,
+      generateHeader(backEndTokenFlight)
     );
   }
   //Airline
@@ -54,21 +69,24 @@ class FlightSearchService {
       FLIGHT_SEARCH_AIRLINE_REST_API_URL + "/getAirline/" + airlineId
     );
   }
-  addAirline(airline) {
+  addAirline(airline, backEndTokenFlight) {
     return axios.post(
       FLIGHT_SEARCH_AIRLINE_REST_API_URL + "/addAirline",
-      airline
+      airline,
+      generateHeader(backEndTokenFlight)
     );
   }
-  updateAirline(airline) {
+  updateAirline(airline, backEndTokenFlight) {
     return axios.put(
       FLIGHT_SEARCH_AIRLINE_REST_API_URL + "/updateAirline",
-      airline
+      airline,
+      generateHeader(backEndTokenFlight)
     );
   }
-  deleteAirline(airlineId) {
+  deleteAirline(airlineId, backEndTokenFlight) {
     return axios.delete(
-      FLIGHT_SEARCH_AIRLINE_REST_API_URL + "/deleteAirline/" + airlineId
+      FLIGHT_SEARCH_AIRLINE_REST_API_URL + "/deleteAirline/" + airlineId,
+      generateHeader(backEndTokenFlight)
     );
   }
   //Airport
@@ -80,21 +98,24 @@ class FlightSearchService {
       FLIGHT_SEARCH_AIRPORT_REST_API_URL + "/getAirport/" + airportId
     );
   }
-  addAirport(airport) {
+  addAirport(airport, backEndTokenFlight) {
     return axios.post(
       FLIGHT_SEARCH_AIRPORT_REST_API_URL + "/addAirport",
-      airport
+      airport,
+      generateHeader(backEndTokenFlight)
     );
   }
-  updateAirport(airport) {
+  updateAirport(airport, backEndTokenFlight) {
     return axios.put(
       FLIGHT_SEARCH_AIRPORT_REST_API_URL + "/updateAirport",
-      airport
+      airport,
+      generateHeader(backEndTokenFlight)
     );
   }
-  deleteAirport(airportId) {
+  deleteAirport(airportId, backEndTokenFlight) {
     return axios.delete(
-      FLIGHT_SEARCH_AIRPORT_REST_API_URL + "/deleteAirport/" + airportId
+      FLIGHT_SEARCH_AIRPORT_REST_API_URL + "/deleteAirport/" + airportId,
+      generateHeader(backEndTokenFlight)
     );
   }
 
@@ -105,46 +126,82 @@ class FlightSearchService {
   getFare(flightId) {
     return axios.get(FLIGHT_FARE_REST_API_URL + "/getFare/" + flightId);
   }
-  addFare(fare) {
-    return axios.post(FLIGHT_FARE_REST_API_URL + "/addFare", fare);
+  addFare(fare, backEndTokenFare) {
+    return axios.post(
+      FLIGHT_FARE_REST_API_URL + "/addFare",
+      fare,
+      generateHeader(backEndTokenFare)
+    );
   }
-  updateFare(fare) {
-    return axios.put(FLIGHT_FARE_REST_API_URL + "/updateFare", fare);
+  updateFare(fare, backEndTokenFare) {
+    return axios.put(
+      FLIGHT_FARE_REST_API_URL + "/updateFare",
+      fare,
+      generateHeader(backEndTokenFare)
+    );
   }
-  deleteFare(id) {
-    return axios.delete(FLIGHT_FARE_REST_API_URL + "/deleteFare/" + id);
+  deleteFare(id, backEndTokenFare) {
+    return axios.delete(
+      FLIGHT_FARE_REST_API_URL + "/deleteFare/" + id,
+      generateHeader(backEndTokenFare)
+    );
   }
 
   //Flight Book Microservice
-  getAllBookings() {
-    return axios.get(FLIGHT_BOOK_REST_API_URL + "/allBookings");
-  }
-  getBooking(bookingId) {
-    return axios.get(FLIGHT_BOOK_REST_API_URL + "/getBooking/" + bookingId);
-  }
-  updateBooking(booking) {
-    return axios.put(FLIGHT_BOOK_REST_API_URL + "/updateBooking", booking);
-  }
-  cancelBooking(booking) {
-    return axios.put(FLIGHT_BOOK_REST_API_URL + "/updateBooking", booking);
-  }
-  deleteBooking(bookingId) {
-    return axios.delete(
-      FLIGHT_BOOK_REST_API_URL + "/deleteBooking/" + bookingId
+  getAllBookings(backEndTokenBooking) {
+    return axios.get(
+      FLIGHT_BOOK_REST_API_URL + "/allBookings",
+      generateHeader(backEndTokenBooking)
     );
   }
-  getSelectedFlight(flightId) {
-    return axios.get(FLIGHT_BOOK_REST_API_URL + "/getFlight/" + flightId);
+  getBooking(bookingId, backEndTokenBookin) {
+    return axios.get(
+      FLIGHT_BOOK_REST_API_URL + "/getBooking/" + bookingId,
+      generateHeader(backEndTokenBookin)
+    );
   }
-  bookFlight(booking) {
-    return axios.post(FLIGHT_BOOK_REST_API_URL + "/addBooking", booking);
+  updateBooking(booking, backEndTokenBooking) {
+    return axios.put(
+      FLIGHT_BOOK_REST_API_URL + "/updateBooking",
+      booking,
+      generateHeader(backEndTokenBooking)
+    );
+  }
+  cancelBooking(booking, backEndTokenBooking) {
+    return axios.put(
+      FLIGHT_BOOK_REST_API_URL + "/updateBooking",
+      booking,
+      generateHeader(backEndTokenBooking)
+    );
+  }
+  deleteBooking(bookingId, backEndTokenBooking) {
+    return axios.delete(
+      FLIGHT_BOOK_REST_API_URL + "/deleteBooking/" + bookingId,
+      generateHeader(backEndTokenBooking)
+    );
+  }
+  getSelectedFlight(flightId, backEndTokenBooking) {
+    return axios.get(
+      FLIGHT_BOOK_REST_API_URL + "/getFlight/" + flightId,
+      generateHeader(backEndTokenBooking)
+    );
+  }
+  bookFlight(booking, backEndTokenBooking) {
+    return axios.post(
+      FLIGHT_BOOK_REST_API_URL + "/addBooking",
+      booking,
+      generateHeader(backEndTokenBooking)
+    );
   }
 
-  getBookingsByUserId(userId) {
+  getBookingsByEmail(email, backEndTokenBooking) {
     return axios.get(
-      FLIGHT_BOOK_REST_API_URL + "/getBookingsByUserId/" + userId
+      FLIGHT_BOOK_REST_API_URL + "/getBookingsByEmail/" + email,
+      generateHeader(backEndTokenBooking)
     );
   }
+
+ 
 }
 
 export default new FlightSearchService();

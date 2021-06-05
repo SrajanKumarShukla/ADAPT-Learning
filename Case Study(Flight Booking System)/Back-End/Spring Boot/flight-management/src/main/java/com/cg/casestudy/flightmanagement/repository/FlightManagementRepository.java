@@ -11,6 +11,6 @@ import com.cg.casestudy.flightmanagement.model.Flight;
 public interface FlightManagementRepository extends MongoRepository<Flight, String> {
 	
 	
-	//Custom Search for fetching data from database
-	List<Flight> findByDepartureAirportAirportCodeAndDestinationAirportAirportCode(String departureAirportAirportCode, String destinationAirportAirportCode);
+	/*** Custom Search for fetching data from database */
+	List<Flight> findByDepartureAirportAirportCodeAndDestinationAirportAirportCodeAndDepartureDate(String departureAirportAirportCode, String destinationAirportAirportCode, String departureDate);
 }

@@ -1,141 +1,165 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, withRouter } from "react-router-dom";
+import React, { useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router";
+import validate from "../forms/LoginFormValidation";
+import useForm from "../forms/useForm";
 
 function Login() {
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    callback,
+    validate
+  );
   const history = useHistory();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
-  const login = (event) => {
-    event.preventDefault();
+  function callback() {}
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("token") === null ||
+      localStorage.getItem("token") === undefined
+    ) {
+      axios
+        .get("http://localhost:3001/login")
+        .then((response) => {
+          if (response.data.loggedIn === true) {
+            history.push("/home");
+          } else {
+            history.push("/login");
+          }
+        })
+        .catch((error) => console.error(`Error :  ${error}`));
+    } else {
+      history.push("/home");
+    }
+  }, [history]);
+
+  const generateLogin = () => {
+    if (Object.keys(errors).length === 0) {
+      const log = {
+        username: values.username,
+        password: values.password,
+      };
+      console.log(errors);
+      login(log);
+    }
+  };
+
+  const login = (log) => {
+    //calling getToken to get Jwt backEndToken from Back-End
+
     axios
       .post("http://localhost:3001/login", {
-        username: username,
-        password: password,
+        username: log.username,
+        password: log.password,
       })
       .then((response) => {
         if (!response.data.auth) {
           history.push("/login");
         } else {
+          getTokens();
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("fullname", response.data.result[0].fullname);
           localStorage.setItem("username", response.data.result[0].username);
+          localStorage.setItem("email", response.data.result[0].email);
           localStorage.setItem("role", response.data.result[0].role);
           history.push("/home");
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-    //   axios
-    //     .post("http://localhost:3001/login", {
-    //       username: username,
-    //       password: password,
-    //     })
-    //     .then((response) => {
-    //       if (!response.data.auth) {
-    //         setLoginStatus(false);
-    //         isLoggedIn = false;
-    //       } else {
-    //         localStorage.setItem("token", response.data.token);
-    //         localStorage.setItem("username", response.data.result[0].username);
-    //         localStorage.setItem("role", response.data.result[0].role);
-
-    //         setLoginStatus(true);
-    //         // setRole(response.data.result[0].role);
-    //         isLoggedIn = true;
-    //         role = response.data.result[0].role;
-    //       }
-    //     });
   };
 
-  //   const userAuthenticated = () => {
-  //     Axios.get("http://localhost:3001/isUserAuth", {
-  //       headers: {
-  //         "x-access-token": localStorage.getItem("token"),
-  //       },
-  //     }).then((response) => {
-  //       console.log(response);
-  //     });
+  //geting Jwt Token from all Back-End Microsevices
+  const getTokens = () => {
+    axios
+      .post("http://localhost:9090/flight/authenticate", {
+        username: values.username,
+        password: values.password,
+      })
+      .then((response) => {
+        if (response.data !== undefined) {
+          localStorage.setItem("backEndTokenFlight", response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .post("http://localhost:9090/fare/authenticate", {
+        username: values.username,
+        password: values.password,
+      })
+      .then((response) => {
+        if (response.data !== undefined) {
+          localStorage.setItem("backEndTokenFare", response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .post("http://localhost:9090/booking/authenticate", {
+        username: values.username,
+        password: values.password,
+      })
+      .then((response) => {
+        if (response.data !== undefined) {
+          localStorage.setItem("backEndTokenBooking", response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
+  };
 
-  //   };
-
-  useEffect(() => {
-    // console.log("Mount");
-    axios.get("http://localhost:3001/login").then((response) => {
-      if (response.data.loggedIn === true) {
-      }
-
-      if (localStorage.getItem("token")) {
-        history.push("/home");
-      }
-    });
-  }, [history]);
-
-  // if (loginStatus && role === "ADMIN") {
-  //   console.log("-----");
-  //   return <Redirect to="/adminDashboard" />;
-  // } else if (loginStatus && role === "USER") {
-  //   console.log("++++");
-  //   return <Redirect to="/userDashboard" />;
-  // }
   return (
-    <div>
-      <br></br>
+    <div className="section is-fullheight">
       <div className="container">
-        <div className="row">
-          <div className="card col-md-6 offset-md-3 offset-md-3">
-            <div className="card-body"></div>
-            <form onSubmit={login}>
-              <h3 className="text-center">Sign In</h3>
-              <div className="form-group">
-                <label>Username</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter username"
-                  name="username"
-                  value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="form-group">
-                <div className="custom-control custom-checkbox">
+        <div className="column is-4 is-offset-4">
+          <div className="box">
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="field">
+                <label className="label">Username</label>
+                <div className="control">
                   <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="customCheck1"
+                    autoComplete="off"
+                    className={`input ${errors.username && "is-danger"}`}
+                    type="text"
+                    name="username"
+                    onChange={handleChange}
+                    value={values.username || ""}
+                    required
                   />
-                  <label
-                    className="custom-control-label"
-                    htmlFor="customCheck1"
-                  >
-                    Remember me
-                  </label>
+                  {errors.username && (
+                    <p className="help is-danger">{errors.username}</p>
+                  )}
                 </div>
               </div>
-
-              <button type="submit" className="btn btn-primary btn-block">
-                Submit
+              <div className="field">
+                <label className="label">Password</label>
+                <div className="control">
+                  <input
+                    className={`input ${errors.password && "is-danger"}`}
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password || ""}
+                    required
+                  />
+                </div>
+                {errors.password && (
+                  <p className="help is-danger">{errors.password}</p>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="button is-block is-info is-fullwidth"
+                onClick={generateLogin}
+              >
+                Login
               </button>
-              <p className="forgot-password text-right">
-                Forgot <a href="/forgot">password?</a>
-              </p>
             </form>
           </div>
         </div>
@@ -144,4 +168,4 @@ function Login() {
   );
 }
 
-export default withRouter(Login);
+export default Login;

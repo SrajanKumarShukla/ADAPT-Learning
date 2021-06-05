@@ -6,11 +6,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.cg.casestudy.flightmanagement.exception.FlightNotFoundException;
 import com.cg.casestudy.flightmanagement.exception.IdNotFoundException;
+import com.cg.casestudy.flightmanagement.model.AuthRequest;
 import com.cg.casestudy.flightmanagement.model.Fare;
 import com.cg.casestudy.flightmanagement.model.Flight;
 import com.cg.casestudy.flightmanagement.model.Search;
@@ -26,25 +31,24 @@ public class FlightManagementServiceImpl implements FlightManagementService {
 	@Autowired
 	@Lazy
 	private RestTemplate restTemplate;
-	
-//	//(space between '$' and '{' is important)
-//	@Value("$ {microservice.fare-management.endpoints.endpoint.uri}")
-//    private String FARE_ENDPOINT_URL;
 
-	// Get flights by custom search
+	/*** Creating AuthRequest object */
+	AuthRequest auth = new AuthRequest("admin", "admin");
+
+	/*** Get flights by custom search */
 	public List<Flight> getFlights(Search search) {
 
-		// Custom search
+		/*** Custom search */
 		List<Flight> searchedList = flightManagementRepository
-				.findByDepartureAirportAirportCodeAndDestinationAirportAirportCode(search.getDepartureAirport(),
-						search.getDestinationAirport());
+				.findByDepartureAirportAirportCodeAndDestinationAirportAirportCodeAndDepartureDate(
+						search.getDepartureAirport(), search.getDestinationAirport(), search.getDepartureDate());
 		if (searchedList.isEmpty()) {
 			throw new FlightNotFoundException("No Flight available");
 		}
 		return searchedList;
 	}
 
-	// Getting All Flights
+	/*** Getting All Flights */
 	@Override
 	public List<Flight> getAllFlights() {
 
@@ -55,7 +59,7 @@ public class FlightManagementServiceImpl implements FlightManagementService {
 		return flightList;
 	}
 
-	// Getting the Flight
+	/*** Getting the Flight */
 	@Override
 	public Optional<Flight> getFlight(String id) {
 		Optional<Flight> flight = flightManagementRepository.findById(id);
@@ -65,15 +69,28 @@ public class FlightManagementServiceImpl implements FlightManagementService {
 		return flight;
 	}
 
-	// Adding the Flight
+	/*** Adding the Flight */
 	@Override
 	public String addFlight(Flight flight) {
-		flightManagementRepository.save(flight);
+
 		Fare fare = new Fare(flight.getId(), flight.getAirline().getAirlineName(), 3000);
+		flight.setFare(fare);
+		flightManagementRepository.save(flight);
 		try {
-			// Adding the default Fare to Flight Fare Microservice while this addFlight
-			// method is called
-			restTemplate.postForObject("http://fare-management/fare" + "/addFare", fare, Fare.class);
+
+			/*** Request for authentication and getting the authorization token */
+			String token = restTemplate.postForObject("http://fare-management/fare/authenticate", auth, String.class);
+
+			/*** Creating Header with token */
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.set("Authorization", "Bearer " + token);
+			/*** Creating Http Entity */
+			HttpEntity<Fare> entity = new HttpEntity<Fare>(fare, headers);
+
+			/*** Adding the default Fare to Fare MS by REST call */
+			restTemplate.exchange("http://fare-management/fare" + "/addFare/", HttpMethod.POST, entity, String.class);
+
 			return "Flight and Fare added with id : " + flight.getId();
 		} catch (Exception e) {
 			return "Fare not added because of [" + e + "], but Flight added with Flight Id : " + flight.getId();
@@ -81,26 +98,39 @@ public class FlightManagementServiceImpl implements FlightManagementService {
 
 	}
 
-	// Updating the Flight
+	/*** Updating the Flight */
 	@Override
 	public String updateFlight(Flight flight) {
+
 		flightManagementRepository.save(flight);
 		return "Flight updated with id : " + flight.getId();
 	}
 
-	// Deleting the Flight
+	/*** Deleting the Flight */
 	@Override
 	public String deleteFlight(String flightId) {
+
 		flightManagementRepository.deleteById(flightId);
 		try {
-			// Deleting the Fare from Flight Fare Microservice while this deleteFlight
-			// method is called
-			restTemplate.delete("fare-management/fare" + "/deleteFare/" + flightId);
+			/*** Request for authentication and getting the authorization token */
+			String tokenDeleteFare = restTemplate.postForObject("http://fare-management/fare/authenticate", auth,
+					String.class);
+
+			/*** Creating Header with token */
+			HttpHeaders headersDeleteFare = new HttpHeaders();
+			headersDeleteFare.setContentType(MediaType.APPLICATION_JSON);
+			headersDeleteFare.set("Authorization", "Bearer " + tokenDeleteFare);
+			/*** Creating Http Entity */
+			HttpEntity<?> entityDeleteFare = new HttpEntity<>(headersDeleteFare);
+
+			restTemplate.exchange("http://fare-management/fare" + "/deleteFare/" + flightId, HttpMethod.DELETE,
+					entityDeleteFare, String.class);
+
 			return "Flight and Fare deleted with Flight Id : " + flightId;
 		} catch (Exception e) {
 			return "Fare not delete because of " + e + ", but Flight deleted with Flight Id : " + flightId;
 		}
-		
+
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.cg.casestudy.flightmanagement.model.Airline;
 import com.cg.casestudy.flightmanagement.model.Airport;
+import com.cg.casestudy.flightmanagement.model.Fare;
 import com.cg.casestudy.flightmanagement.model.Flight;
 
 @ExtendWith(SpringExtension.class)
@@ -28,7 +29,7 @@ class FlightManagementRepositoryTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		Flight flight = new Flight("DUMMY1", new Airline("", "", ""), new Airport("1", "XXX", ""),
-				new Airport("2", "YYY", ""), "", "", "", "", 0);
+				new Airport("2", "YYY", ""), "2021-04-30", "2021-04-30", "", "",new Fare(), 0);
 		flightRepository.save(flight);
 	}
 	
@@ -42,7 +43,7 @@ class FlightManagementRepositoryTest {
 	public void getFlightsTest() throws Exception {
 
 		List<Flight> flightList = flightRepository
-				.findByDepartureAirportAirportCodeAndDestinationAirportAirportCode("XXX", "YYY");
+				.findByDepartureAirportAirportCodeAndDestinationAirportAirportCodeAndDepartureDate("XXX", "YYY","2021-04-30");
 
 		org.junit.jupiter.api.Assertions.assertEquals(1, flightList.size());
 	}
@@ -64,7 +65,7 @@ class FlightManagementRepositoryTest {
 	@Test
 	public void addFlightTest() throws Exception {
 		Flight flight = new Flight("DUMMY2", new Airline("", "", ""), new Airport("1", "XXX", ""),
-				new Airport("2", "YYY", ""), "", "", "", "", 0);
+				new Airport("2", "YYY", ""), "", "", "", "",new Fare(), 0);
 
 		flightRepository.save(flight);
 
@@ -78,7 +79,7 @@ class FlightManagementRepositoryTest {
 	@Test
 	public void updateFlightTest() throws Exception {
 		Flight flight = new Flight("DUMMY1", new Airline("", "", ""), new Airport("1", "XXX", ""),
-				new Airport("2", "YYY", ""), "", "", "", "", 100);
+				new Airport("2", "YYY", ""), "", "", "", "",new Fare(), 100);
 
 		flightRepository.save(flight);
 		Optional<Flight> response = flightRepository.findById("DUMMY1");

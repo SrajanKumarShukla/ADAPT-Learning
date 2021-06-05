@@ -26,31 +26,31 @@ public class AirportController {
 	@Autowired
 	private AirportService airportService;
 
-	// Getting REST GET request and returning 'all airports list' from AirportService
+	/*** Receiving GET request and returning 'all airports list' from AirportService */
 	@GetMapping(value = "/allAirports")
 	public List<Airport> getAllAirports() {
 		return airportService.getAllAirports();
 	}
 
-	// Getting REST GET request and returning 'one airport' from AirportService
+	/*** Receiving GET request and returning 'one airport' from AirportService */
 	@GetMapping("/getAirport/{id}")
 	public Optional<Airport> getAirport(@PathVariable String id) {
 		return airportService.getAirport(id);
 	}
 
-	// Getting REST POST request and returning response from AirportService
+	/*** Receiving POST request and returning response from AirportService */
 	@PostMapping("/addAirport")
 	public String addAirport(@RequestBody Airport flight) {
 		return airportService.addAirport(flight);
 	}
 
-	// Getting REST PUT request and returning response from AirportService
+	/*** Receiving PUT request and returning response from AirportService */
 	@PutMapping("/updateAirport")
 	public String updateAirport(@RequestBody Airport flight) {
 		return airportService.updateAirport(flight);
 	}
 
-	// Getting REST DELETE request and returning response from AirportService
+	/*** Receiving DELETE request and returning response from AirportService */
 	@DeleteMapping("/deleteAirport/{id}")
 	public String deleteAirport(@PathVariable String id) {
 		return airportService.deleteAirport(id);

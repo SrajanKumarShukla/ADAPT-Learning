@@ -17,7 +17,7 @@ public class FareManagementServiceImpl implements FareManagementService {
 	@Autowired
 	FareManagementReopsitory fareManagementRepository;
 
-	// Getting 'All Fare List' from FareReopsitory
+	/** Getting 'All Fare List' from FareReopsitory */
 	@Override
 	public List<Fare> getAllFares() {
 		List<Fare> fareList = fareManagementRepository.findAll();
@@ -27,7 +27,7 @@ public class FareManagementServiceImpl implements FareManagementService {
 		return fareList;
 	}
 
-	// Getting 'Fare object/Optional' from FareReopsitory
+	/** Getting 'Fare object/Optional' from FareReopsitory */
 	@Override
 	public Optional<Fare> getFare(String id) {
 		Optional<Fare> fare = fareManagementRepository.findById(id);
@@ -37,19 +37,19 @@ public class FareManagementServiceImpl implements FareManagementService {
 		return fare;
 	}
 
-	// Adding 'Fare' to database using FareFareReopsitory
+	/** Adding 'Fare' to database using FareFareReopsitory */
 	@Override
 	public void addFare(Fare fare) {
 		fareManagementRepository.save(fare);
 	}
  
-	// Updating 'Fare' in database using FareReopsitory
+	/** Updating 'Fare' in database using FareReopsitory */
 	@Override
 	public void updateFare(Fare fare) {
 		fareManagementRepository.save(fare);
 	}
 
-	// Deleting 'Fare' by Flight Id in database using FareReopsitory
+	/** Deleting 'Fare' by Flight Id in database using FareReopsitory */
 	@Override
 	public String deleteFare(String id) {
 		if (fareManagementRepository.existsById(id)) {

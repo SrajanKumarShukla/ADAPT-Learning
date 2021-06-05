@@ -30,6 +30,7 @@ public class Flight {
 	private String arrivalDate;
 	private String departureTime;
 	private String arrivalTime;
+	private Fare fare;
 	@NotNull(message = "seats must not be empty")
 	private Integer seats;
 	public Flight() {
@@ -38,7 +39,7 @@ public class Flight {
 	}
 	public Flight(@NotEmpty(message = "flightId must not be empty") String id, @Valid Airline airline,
 			@Valid Airport departureAirport, @Valid Airport destinationAirport, String departureDate,
-			String arrivalDate, String departureTime, String arrivalTime,
+			String arrivalDate, String departureTime, String arrivalTime, Fare fare,
 			@NotNull(message = "seats must not be empty") Integer seats) {
 		super();
 		this.id = id;
@@ -49,6 +50,7 @@ public class Flight {
 		this.arrivalDate = arrivalDate;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
+		this.fare = fare;
 		this.seats = seats;
 	}
 	public String getId() {
@@ -99,6 +101,12 @@ public class Flight {
 	public void setArrivalTime(String arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
+	public Fare getFare() {
+		return fare;
+	}
+	public void setFare(Fare fare) {
+		this.fare = fare;
+	}
 	public Integer getSeats() {
 		return seats;
 	}
@@ -109,8 +117,8 @@ public class Flight {
 	public String toString() {
 		return "Flight [id=" + id + ", airline=" + airline + ", departureAirport=" + departureAirport
 				+ ", destinationAirport=" + destinationAirport + ", departureDate=" + departureDate + ", arrivalDate="
-				+ arrivalDate + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", seats=" + seats
-				+ "]";
+				+ arrivalDate + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", fare=" + fare
+				+ ", seats=" + seats + "]";
 	}
 	
 }

@@ -7,6 +7,7 @@ const useForm = (callback, validate) => {
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
+      console.log("callback Called");
       callback();
     }
   }, [errors, callback, isSubmitting]);
@@ -23,6 +24,7 @@ const useForm = (callback, validate) => {
       ...values,
       [event.target.name]: event.target.value,
     }));
+    console.log(event.target.value);
   };
 
   return {

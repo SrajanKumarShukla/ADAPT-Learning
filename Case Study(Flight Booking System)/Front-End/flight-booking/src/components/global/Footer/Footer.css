@@ -1,0 +1,16 @@
+.footer{
+    background: linear-gradient(to right,#71b7e6, #9b59b6);
+}
+.footerLink{
+    padding-left: 10px;
+    padding-right: 10px;
+    color: black;
+    font-size: 20px;
+}
+.footerLink:hover{
+color: crimson;
+text-decoration: underline;
+}
+.space{
+    width: 40px;
+}

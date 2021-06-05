@@ -6,6 +6,7 @@ function UpdateBooking() {
   const { id } = useParams();
 
   const username = localStorage.getItem("username");
+  const backEndTokenBooking = localStorage.getItem("backEndTokenBooking");
 
   const history = useHistory();
   const [booking, setBooking] = useState({});
@@ -13,57 +14,22 @@ function UpdateBooking() {
 
   const [flight, setFlight] = useState({});
 
-  const [passengerId, setPassengerId] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-
   useEffect(() => {
-    FlightService.getBooking(id)
+    FlightService.getBooking(id, backEndTokenBooking)
       .then((response) => {
         setBooking(response.data);
         setFlight(response.data.flight);
         setPassengerList(response.data.passengerList);
-
-        setPassengerId(response.data.passengerList[0].id);
-        setFirstName(response.data.passengerList[0].firstName);
-        setMiddleName(response.data.passengerList[0].middleName);
-        setLastName(response.data.passengerList[0].lastName);
-        setAge(response.data.passengerList[0].age);
-        setGender(response.data.passengerList[0].gender);
       })
       .catch((error) => console.error(`Error :  ${error}`));
-  }, [id]);
+  }, [id, backEndTokenBooking]);
 
-  const updateBooking = (event) => {
-    event.preventDefault();
+  const updateBooking = () => {
+    let myBooking = booking;
 
-    //Creating a Passenger Object
-    let passenger = {
-      id: passengerId,
-      firstName: firstName,
-      middleName: middleName,
-      lastName: lastName,
-      age: age,
-      gender: gender,
-    };
+    myBooking.passengerList = passengerList;
 
-    //Creating a PassengerList with Passengers
-    let myPassengerList = [];
-    myPassengerList.push(passenger);
-
-    let myBooking = {
-      id: booking.id,
-      pnrNo: booking.pnrNo,
-      flight: flight,
-      passengerList: myPassengerList,
-      active: true,
-      userId: booking.userId,
-    };
-
-    FlightService.updateBooking(myBooking).then((res) => {
+    FlightService.updateBooking(myBooking, backEndTokenBooking).then((res) => {
       history.push("/manage_booking");
     });
   };
@@ -72,144 +38,182 @@ function UpdateBooking() {
     history.push("/manage_booking");
   };
 
+  const handleChangeInput = (id, event) => {
+    const newPassengerList = passengerList.map((i) => {
+      if (id === i.id) {
+        i[event.target.name] = event.target.value;
+      }
+      return i;
+    });
+    setPassengerList(newPassengerList);
+  };
+
   return (
     <div>
+      <br></br>
       {username === booking.userId || username === "admin" ? (
         <div className="container">
-          <div className="row">
-            <div className="card col-md-12 text-center">
-              <br></br>
-              Update Booking Details
-              <div className="card-body">
-                <form>
-                  <div className="form-group">
-                    <label> Booking Id: </label>
-                    <input
-                      placeholder="Booking Id"
-                      name="id"
-                      className="form-control"
-                      value={booking.id || ""}
-                      disabled="disabled"
-                    />
+          {Object.keys(flight).length !== 0 ? (
+            <div className="containerBM">
+              <div className="upperBM">
+                <h2 className="text-center">{booking.id}</h2>
+                <br></br>
+                <h3>
+                  <div className="row align-items-start text-center">
+                    <div className="col-sm">
+                      {" "}
+                      <span>{booking.flight.departureTime}</span>
+                      <br />
+                      {booking.flight.departureAirport.airportName}
+                    </div>
+                    <div className="col-sm">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <polygon points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9" />
+                      </svg>
+                    </div>
+                    <div className="col-sm">
+                      {" "}
+                      <span>{booking.flight.arrivalTime}</span>
+                      <br />
+                      {booking.flight.destinationAirport.airportName}
+                    </div>
+
+                    <div className="col-sm">
+                      <span>{"Departure Date"}</span>
+                      <br />
+                      {booking.flight.departureDate}
+                    </div>
+
+                    <div className="col-sm">
+                      <span>{"Arrival Date"}</span>
+                      <br />
+                      {booking.flight.arrivalDate}
+                    </div>
+
+                    <div className="col-sm">
+                      <h2>{"\u20B9" + booking.flight.fare.flightFare}</h2>
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label> Flight Id: </label>
-                    <input
-                      placeholder="Flight Id"
-                      name="flightId"
-                      className="form-control"
-                      value={flight.id || ""}
-                      disabled="disabled"
-                    />
-                  </div>
-                  <div>
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <td> Passenger Id </td>
-                          <td> First Name</td>
-                          <td> Middle Name </td>
-                          <td> First Name</td>
-                          <td> Age</td>
-                          <td> Gender</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {passengerList.map((passenger) => (
-                          <tr key={passenger.id}>
-                            <td>
-                              <input
-                                placeholder="Passenger Id"
-                                name="id"
-                                className="form-control"
-                                value={passenger.id || ""}
-                                disabled="disabled"
-                              />
-                            </td>
-                            <td>
-                              <input
-                                placeholder="First Name"
-                                name="firstName"
-                                className="form-control"
-                                value={firstName || ""}
-                                onChange={(e) => {
-                                  setFirstName(e.target.value);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                placeholder="Middle Name"
-                                name="middleName"
-                                className="form-control"
-                                value={middleName || ""}
-                                onChange={(e) => {
-                                  setMiddleName(e.target.value);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                placeholder="Last Name"
-                                name="lastName"
-                                className="form-control"
-                                value={lastName || ""}
-                                onChange={(e) => {
-                                  setLastName(e.target.value);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                placeholder="Age"
-                                name="age"
-                                className="form-control"
-                                value={age || ""}
-                                onChange={(e) => {
-                                  setAge(e.target.value);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <select
-                                className="form-control"
-                                name="gender"
-                                value={gender || ""}
-                                onChange={(e) => {
-                                  setGender(e.target.value);
+                  <br></br>
+                  {passengerList.length !== 0
+                    ? passengerList.map((passenger, idx) => (
+                        <div key={idx} className="containerPassenger">
+                          <div className="upperPassenger">
+                            <h6>{passenger.id}</h6>
+                            <div className="row align-items-start">
+                              <div className="col-sm">
+                                <label> First Name </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="firstName"
+                                  value={passenger.firstName || ""}
+                                  onChange={(e) => {
+                                    handleChangeInput(passenger.id, e);
+                                  }}
+                                ></input>
+                              </div>
+
+                              <div className="col-sm">
+                                <label> Middle Name </label>
+                                <input
+                                  type="text"
+                                  placeholder="Middle Name"
+                                  name="middleName"
+                                  className="form-control"
+                                  value={passenger.middleName || ""}
+                                  onChange={(e) => {
+                                    handleChangeInput(passenger.id, e);
+                                  }}
+                                />
+                              </div>
+
+                              <div className="col-sm">
+                                <label> Last Name </label>
+                                <input
+                                  type="text"
+                                  placeholder="Last Name"
+                                  name="lastName"
+                                  className="form-control"
+                                  value={passenger.lastName || ""}
+                                  onChange={(e) => {
+                                    handleChangeInput(passenger.id, e);
+                                  }}
+                                />
+                              </div>
+
+                              <div className="col-sm">
+                                <label> Age </label>
+                                <input
+                                  type="text"
+                                  min={new Date().toISOString().slice(0, 10)}
+                                  placeholder="Age"
+                                  name="age"
+                                  className="form-control"
+                                  value={passenger.age || ""}
+                                  onChange={(e) => {
+                                    handleChangeInput(passenger.id, e);
+                                  }}
+                                />
+                              </div>
+
+                              <div className="col-sm">
+                                <label>Gender</label>
+                                <select
+                                  className="form-control"
+                                  name="gender"
+                                  value={passenger.gender || ""}
+                                  onChange={(e) => {
+                                    handleChangeInput(passenger.id, e);
+                                  }}
+                                >
+                                  <option
+                                    placeholder="Prefer not to say"
+                                    value={"Prefer not to say"}
+                                  >
+                                    -
+                                  </option>
+                                  <option value="Female">Female</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Others">Others</option>
+                                </select>
+                              </div>
+                            </div>
+                            <br></br>
+                            <div className="col-sm">
+                              <button
+                                id="update"
+                                className="btn-block secondary-button button cursor-pointer bold"
+                                onClick={(e) => {
+                                  updateBooking(booking.id);
                                 }}
                               >
-                                <option
-                                  placeholder="Prefer not to say"
-                                  value="Prefer not to say"
-                                >
-                                  -
-                                </option>
-                                <option value="Female">Female</option>
-                                <option value="Male">Male</option>
-                                <option value="Other">Other</option>
-                              </select>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <button className="btn btn-success" onClick={updateBooking}>
-                    Save
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={cancel}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Cancel
-                  </button>
-                </form>
+                                Update
+                              </button>
+                            </div>
+                            <br></br>
+                            <div className="col-sm">
+                              <button
+                                id="cancel"
+                                className="btn-block secondary-button button cursor-pointer bold"
+                                onClick={(e) => {
+                                  cancel();
+                                }}
+                              >
+                                cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                </h3>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       ) : (
         history.push("/home")
